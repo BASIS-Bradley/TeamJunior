@@ -41,7 +41,7 @@ class graph {
         void addPoint(int a, int b) { // only works if number nodes is given
             if(weighted) {
                 cout << "graph is weighted but no weight given" << endl;
-            } else { // I guess space efficiency can be way more efficient if graph is given as directed
+            } else { // I guess space efficiency can be way more efficient if graph is given as undirected
                 if(directed) {
                     lis -> at(a).push_back(point(b, 1));
                 } else {
