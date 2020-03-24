@@ -18,6 +18,10 @@ class pair {
             nod = node(num);
             weight = w;
         }
+        pair(int num) {
+            nod = node(num);
+            weight = 1;
+        }
         void setNode(node n) {
             nod = n;
         }
