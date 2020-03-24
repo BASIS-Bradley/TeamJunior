@@ -8,17 +8,17 @@
 
 using namespace std;
 
-class pair {
+class point {
     public:
-        pair() {
+        point() {
             nod = node();
             weight = 1;
         }
-        pair(int num, int w) {
+        point(int num, int w) {
             nod = node(num);
             weight = w;
         }
-        pair(int num) {
+        point(int num) {
             nod = node(num);
             weight = 1;
         }
