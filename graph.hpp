@@ -1,8 +1,7 @@
 #ifndef GRAPH_HPP_
 #define GRAPH_HPP_
 
-#include <cstdlib>
-#include <iostream>
+#include <queue>
 #include "point.hpp"
 
 using namespace std;
@@ -89,7 +88,31 @@ class graph {
             return count_edges;
         }
 
-        
+        void bfs(node s) {
+            node u;
+            int i, j;
+            queue<node> que;
+            bool *visited = new bool[num_nodes];
+            for(i = 0; i < num_nodes; i++) {
+                visited[i] = false; //not visited
+            }
+            visited[s.getNum()] = true;//visited
+            que.push(s); //insert starting node
+            while(!que.empty()){
+                u = que.front(); //delete from queue and print
+                que.pop();
+                cout << char(u.getNum()) << " ";
+                for(i = 0; i < num_nodes; i++){
+                    if(lis -> at(i).at(u.getNum()).getWeight() == 1){
+                    //when the node is non-visited
+                        if(visited[i] == false){
+                            visited[i] == true;
+                            que.push(visited[i]);
+                        }
+                    }
+                }
+            }
+        }
 };
 
 #endif

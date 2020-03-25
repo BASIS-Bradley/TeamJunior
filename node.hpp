@@ -1,8 +1,8 @@
 #ifndef NODE_HPP_
 #define NODE_HPP_
 
-// #include <random>
 #include <cstdlib>
+#include <iostream>
 #include <time.h>
 #include <random>
 

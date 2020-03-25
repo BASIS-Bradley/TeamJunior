@@ -1,10 +1,7 @@
 #ifndef POINT_HPP_
 #define POINT_HPP_
 
-
-#include <cstdlib>
 #include "node.hpp"
-
 
 using namespace std;
 
