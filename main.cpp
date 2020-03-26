@@ -11,40 +11,40 @@ graph graph_d_w(false,true);
 
 
 
-void read_ud_uw (graph g&){
+void read_ud_uw (graph g){
     ifstream infile("./data/facebook_undirected.txt");
     int a, b;
     while (infile >> a >> b) {
-        g.addpoint(a,b);
+        g.addEdge(a,b);
     }
     
 }
 
 
-void read_d_uw(graph g&){
+void read_d_uw(graph g){
     ifstream infile(""); //change file path
     int a, b;
     while (infile >> a >> b) {
-        g.addpoint(a,b);
+        g.addEdge(a,b);
     }
     
 }
 
-void read_ud_w(graph g&){
+void read_ud_w(graph g){
     ifstream infile(""); //change file path
     int a, b, c;
     while (infile >> a >> b >> c) {
-        g.addpoint(a, b, c);
+        g.addEdge(a, b, c);
     }
     
 }
 
 
-void read_d_w(graph g&){
+void read_d_w(graph g){
     ifstream infile(""); //change file path
     int a, b, c;
     while (infile >> a >> b >> c) {
-        g.addpoint(a, b, c);
+        g.addEdge(a, b, c);
     }
     
 }

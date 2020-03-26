@@ -88,6 +88,15 @@ class graph {
             return count_edges;
         }
 
+        int findDegree(node ver) {     
+            int degree = 0;          
+            for (int i = 0; i < num_nodes; i++)      
+                if (lis -> at(ver.getNum()).at(i).getWeight() == 1)  
+                    degree++;              
+            
+            return degree;          
+        }
+
         void bfs(node s) {
             node u;
             int i, j;
