@@ -96,6 +96,14 @@ class graph {
             return degree;          
         }
 
+        int findDegree(int x) {
+            int degree = 0;          
+            for (auto i = (lis -> at(x)).begin(); i != (lis -> at(x)).end(); i++) {
+                degree++;              
+            }
+            return degree;  
+        }
+
         void bfs(node s) {
             node u;
             int i, j;

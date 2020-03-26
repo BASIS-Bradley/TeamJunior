@@ -49,8 +49,14 @@ void read_d_w(graph g){
     
 }
 
-
+void testing() {
+    graph g = graph(false, false, 3);
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    cout << g.findDegree(0) << endl;
+    cout << g.findDegree(1) << endl;
+}
 
 int main() {
-    
+    testing();
 }
