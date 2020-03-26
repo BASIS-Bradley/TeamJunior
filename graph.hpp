@@ -88,12 +88,11 @@ class graph {
             return count_edges;
         }
 
-        int findDegree(node ver) {     
+        int findDegree(node ver) { // undirected findDegree, assumes adjacency list does not contain edges of 0
             int degree = 0;          
-            for (int i = 0; i < num_nodes; i++)      
-                if (lis -> at(ver.getNum()).at(i).getWeight() == 1)  
-                    degree++;              
-            
+            for (auto i = (lis -> at(ver.getNum())).begin(); i != (lis -> at(ver.getNum())).end(); i++) {
+                degree++;              
+            }
             return degree;          
         }
 
