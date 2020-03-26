@@ -55,10 +55,8 @@ class graph {
                     lis2 -> at(b).push_back(point(a, 1));
                     ++count_edges;
                 } else {
-                    lis -> at(a).push_back(point(b, 1));
+                    lis -> at(a).push_back(point(b, 1)); // lis = lis2
                     lis -> at(b).push_back(point(a, 1));
-                    lis2 -> at(a).push_back(point(b, 1));
-                    lis2 -> at(b).push_back(point(a, 1));
                     ++count_edges;
                 }
             }
@@ -75,8 +73,6 @@ class graph {
                 } else {
                     lis -> at(a).push_back(point(b, w));
                     lis -> at(b).push_back(point(a, w));
-                    lis2 -> at(a).push_back(point(b, w));
-                    lis2 -> at(b).push_back(point(a, w));
                     ++count_edges;
                 }
             }
