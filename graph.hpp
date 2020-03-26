@@ -88,12 +88,39 @@ class graph {
             return count_edges;
         }
 
-        int findDegree(node ver) { // undirected findDegree, assumes adjacency list does not contain edges of 0
-            int degree = 0;          
-            for (auto i = (lis -> at(ver.getNum())).begin(); i != (lis -> at(ver.getNum())).end(); i++) {
-                degree++;              
-            }
-            return degree;          
+        int findInDegree(node ver) {
+            findDegree(ver, 1);
+        }
+
+        int findOutDegree(node ver) {
+            findDegree(ver, 2);
+        }
+
+        int findDegree(node ver, int d) { //assumes adjacency list does not contain edges of 0
+            if (directed) {
+                int in, out = 0;
+                for (int i = 0; i < num_nodes; i++) {
+                    if (lis -> at(i).at(ver.getNum()).getWeight() != 0) {
+                        in++;
+                    }
+
+                    if (lis -> at(ver.getNum()).at(i).getWeight() != 0) {
+                        out++;
+                    }
+                }
+
+                if (d == 1) {
+                    return in;
+                } else {
+                    return out;
+                }
+            } else{
+                int degree = 0;          
+                for (auto i = (lis -> at(ver.getNum())).begin(); i != (lis -> at(ver.getNum())).end(); i++) {
+                    degree++;              
+                }
+                return degree;     
+            }     
         }
 
         int findDegree(int x) {
