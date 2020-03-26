@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "graph.hpp"
+#include "analyser.hpp"
 
 using namespace std;
 
@@ -53,8 +53,21 @@ void testing() {
     graph g = graph(false, false, 3);
     g.addEdge(0, 1);
     g.addEdge(0, 2);
-    cout << g.findDegree(0) << endl;
-    cout << g.findDegree(1) << endl;
+    analyser a = analyser();
+    cout << a.findDegree(g, 0) << endl;
+    cout << a.findDegree(g, 1) << endl;
+
+    graph f = graph(true, false, 4);
+    cerr << "s1" << endl;
+    f.addEdge(0, 3);
+    f.addEdge(0, 1);
+    f.addEdge(0, 2);
+    f.addEdge(1, 3);
+    f.addEdge(1, 2);
+    f.addEdge(3, 0);
+    f.addEdge(2, 3);
+    cerr << "s2" << endl;
+    cout << a.findInDegree(f, 0) << a.findOutDegree(f, 3) << a.findOutDegree(f, 1) << a.findOutDegree(f, 2) << endl;
 }
 
 int main() {

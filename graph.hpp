@@ -8,7 +8,8 @@ using namespace std;
 
 class graph {
     private:
-        vector<vector<point>> *lis;
+        vector<vector<point>> *lis; // from, to
+        vector<vector<point>> *lis2; // to, from
         bool directed;
         bool weighted;
         int num_nodes;
@@ -16,6 +17,7 @@ class graph {
     public:
         graph() {
             lis = new vector<vector<point>>;
+            lis2 = new vector<vector<point>>;
             num_nodes = 0;
             directed = false;
             weighted = false;
@@ -24,6 +26,7 @@ class graph {
 
         graph(bool x, bool y) {
             lis = new vector<vector<point>>;
+            lis2 = new vector<vector<point>>;
             num_nodes = 0;
             directed = x;
             weighted = y;
@@ -32,11 +35,13 @@ class graph {
 
         graph(bool x, bool y, int num) {
             lis = new vector<vector<point>>;
+            lis2 = new vector<vector<point>>;
             num_nodes = num;
             directed = x;
             weighted = y;
             for(int i = 0; i < num; i++) {
                 lis -> push_back(vector<point>());
+                lis2 -> push_back(vector<point>());
             }
             count_edges = 0;
         }
@@ -47,10 +52,13 @@ class graph {
             } else { // I guess space efficiency can be way more efficient if graph is given as undirected
                 if(directed) {
                     lis -> at(a).push_back(point(b, 1));
+                    lis2 -> at(b).push_back(point(a, 1));
                     ++count_edges;
                 } else {
                     lis -> at(a).push_back(point(b, 1));
                     lis -> at(b).push_back(point(a, 1));
+                    lis2 -> at(a).push_back(point(b, 1));
+                    lis2 -> at(b).push_back(point(a, 1));
                     ++count_edges;
                 }
             }
@@ -62,10 +70,13 @@ class graph {
             } else {
                 if(directed) {
                     lis -> at(a).push_back(point(b, w));
+                    lis2 -> at(b).push_back(point(a, w));
                     ++count_edges;
                 } else {
                     lis -> at(a).push_back(point(b, w));
                     lis -> at(b).push_back(point(a, w));
+                    lis2 -> at(a).push_back(point(b, w));
+                    lis2 -> at(b).push_back(point(a, w));
                     ++count_edges;
                 }
             }
@@ -77,85 +88,36 @@ class graph {
             } else {
                 for(auto i = lis-> begin(); i != lis -> end(); i++) {
                     for(auto j = i -> begin(); j != i -> end(); j++) {
-                        cout << (j -> getNode()).getNum() << " " << j -> getWeight() << " ";
+                        cout << (j -> getNode()).getNum() << "," << j -> getWeight() << " ";
                     }
                     cout << endl;
                 }
             }
         }
 
-        int countEdges() {
+        int get_edges() {
             return count_edges;
         }
 
-        int findInDegree(node ver) {
-            findDegree(ver, 1);
+        vector<vector<point>>* get_lis() {
+            return lis;
         }
 
-        int findOutDegree(node ver) {
-            findDegree(ver, 2);
+        vector<vector<point>>* get_lis2() {
+            return lis2;
         }
 
-        int findDegree(node ver, int d) { //assumes adjacency list does not contain edges of 0
-            if (directed) {
-                int in, out = 0;
-                for (int i = 0; i < num_nodes; i++) {
-                    if (lis -> at(i).at(ver.getNum()).getWeight() != 0) {
-                        in++;
-                    }
-
-                    if (lis -> at(ver.getNum()).at(i).getWeight() != 0) {
-                        out++;
-                    }
-                }
-
-                if (d == 1) {
-                    return in;
-                } else {
-                    return out;
-                }
-            } else{
-                int degree = 0;          
-                for (auto i = (lis -> at(ver.getNum())).begin(); i != (lis -> at(ver.getNum())).end(); i++) {
-                    degree++;              
-                }
-                return degree;     
-            }     
+        bool get_directed() {
+            return directed;
         }
 
-        int findDegree(int x) {
-            int degree = 0;          
-            for (auto i = (lis -> at(x)).begin(); i != (lis -> at(x)).end(); i++) {
-                degree++;              
-            }
-            return degree;  
+        bool get_weighted() {
+            return weighted;
         }
 
-        void bfs(node s) {
-            node u;
-            int i, j;
-            queue<node> que;
-            bool *visited = new bool[num_nodes];
-            for(i = 0; i < num_nodes; i++) {
-                visited[i] = false; //not visited
-            }
-            visited[s.getNum()] = true;//visited
-            que.push(s); //insert starting node
-            while(!que.empty()){
-                u = que.front(); //delete from queue and print
-                que.pop();
-                cout << char(u.getNum()) << " ";
-                for(i = 0; i < num_nodes; i++){
-                    if(lis -> at(i).at(u.getNum()).getWeight() == 1){
-                    //when the node is non-visited
-                        if(visited[i] == false){
-                            visited[i] == true;
-                            que.push(visited[i]);
-                        }
-                    }
-                }
-            }
-        }
+        int get_number_nodes() {
+            return num_nodes;
+        }        
 };
 
 #endif
