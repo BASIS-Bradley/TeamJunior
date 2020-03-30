@@ -3,6 +3,7 @@
 
 #include "graph.hpp"
 #include <list>
+#include <limits.h>
 
 using namespace std;
 
@@ -38,8 +39,6 @@ class analyser {
             return findOutDegree(a, x);
         }
 
-
-
         void bfs(graph a, node s) {
             int num_nodes = a.get_number_nodes();
             //make helper array that keeps tracks of which nodes have been visited, sets it all to false before starting
@@ -64,16 +63,54 @@ class analyser {
                 // Get all adjacent vertices of the dequeued-
                 // // vertex s. If a adjacent has not been visited,--
                 // // then mark it visited and enqueue it
-                for (auto i = lis -> at(s).begin(); i != lis -> at(s).end(); i++) {
-                    if(!visited[*i]) {
-                        visited[*i] = true;
-                        queue.push_back(*i);
+                for (auto i = lis -> at(s.getNum()).begin(); i != lis -> at(s.getNum).end(); i++) {
+                    if(!visited[i -> getNode().getNum()]) {
+                        visited[i -> getNode().getNum()] = true;
+                        queue.push_back(i -> getNode());
                     }
                 }
             }
         }
 
+        int minDistanceIndex(graph a, int dist[], bool sptSet[]) { 
+            int min = INT_MAX, min_index; 
+        
+            for (int v = 0; v < a.get_number_nodes(); v++) 
+                if (sptSet[v] == false && dist[v] <= min) 
+                    min = dist[v], min_index = v; 
+        
+            return min_index; 
+        }
 
+        void dijkstra(graph a, int src) { 
+            int num_nodes = a.get_number_nodes();
+            int dist[num_nodes];
+        
+            bool sptSet[num_nodes]; 
+
+            for (int i = 0; i < num_nodes; i++) 
+                dist[i] = INT_MAX, sptSet[i] = false; 
+
+            dist[src] = 0; 
+            vector<vector<point>>* lis = a.get_lis();
+
+            for (int i = 0; i < num_nodes - 1; i++) {  
+                int u = minDistanceIndex(a, dist, sptSet); 
+
+                sptSet[u] = true; 
+
+                for (auto v = lis -> at(u).begin(); v != lis -> at(u).end(); v++) {
+                    int vIndex = v -> getNode().getNum();
+                    if (!sptSet[vIndex] && lis -> at(u).at(vIndex).getWeight() && dist[u] != INT_MAX && dist[u] + lis -> at(u).at(vIndex).getWeight() < dist[vIndex]) {
+                        dist[vIndex] = dist[u] + lis -> at(u).at(vIndex).getWeight(); 
+                    }
+                }
+            } 
+        
+            printf("Vertex \t\t Distance from Source\n"); 
+            for (int i = 0; i < num_nodes; i++) 
+                printf("%d \t\t %d\n", i, dist[i]);
+        }
 
 };
 
