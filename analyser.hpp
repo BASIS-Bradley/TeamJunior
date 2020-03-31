@@ -7,6 +7,8 @@
 
 using namespace std;
 
+typedef pair<int, int> pi;
+
 class analyser {
     public:
         analyser() {
@@ -111,6 +113,57 @@ class analyser {
             for (int i = 0; i < num_nodes; i++) 
                 printf("%d \t\t %d\n", i, dist[i]);
         }
+
+
+
+//STILL NEEDS TESTING AND FORMATTING AND JUST ABOUT EVERYTHING ELSE
+void primMST(graph g)
+{
+    //okay so I don't know how to make this without pairs because i have no clue how PQs in the
+    //STL treats putting objects in heaps, with pairs you can order by weight (cost) and heap
+    //recognizes the first element of the pair as the thing to prioritize
+    priority_queue< pi, vector <pi> , greater<pi> > minheap; 
+
+    vector<vector<point>>* adjlis = a.get_lis();
+
+    //this is just the starting point, pretty sure it gets more stupid if it's negative
+    int src = 0; 
+  
+    vector<int> cost(g.get_number_nodes(), INF); 
+  
+    vector<int> parent(g.get_number_nodes(), -1); 
+  
+    vector<bool> inMST(g.get_number_nodes(), false); 
+
+    //this is pushing the weight-node pairs, i don't want to figure out doing it with point objects because this is just easier (i think)
+    minheap.push(make_pair(0, src)); 
+    cost[src] = 0; 
+  
+    while (!minheap.empty()) 
+    { 
+        int u = minheap.top().second; 
+        minheap.pop(); 
+  
+        inMST[u] = true; 
+  
+        for (auto i = adjlis -> at(u).begin(); i != adjlis -> at(u).end(); i++) 
+        { 
+            int v = i -> getNode(); 
+            int weight = i -> getNode(); 
+  
+            if (inMST[v] == false && cost[v] > weight) 
+            { 
+                cost[v] = weight; 
+                minheap.push(make_pair(cost[v], v)); 
+                parent[v] = u; 
+            } 
+        } 
+    }
+
+    for (int i = 1; i < V; ++i) 
+        printf("%d - %d\n", parent[i], i);
+} 
+
 
 };
 
