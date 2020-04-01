@@ -124,12 +124,12 @@ void primMST(graph g)
     //recognizes the first element of the pair as the thing to prioritize
     priority_queue< pi, vector <pi> , greater<pi> > minheap; 
 
-    vector<vector<point>>* adjlis = a.get_lis();
+    vector<vector<point>>* adjlis = g.get_lis();
 
     //this is just the starting point, pretty sure it gets more stupid if it's negative
     int src = 0; 
   
-    vector<int> cost(g.get_number_nodes(), INF); 
+    vector<int> cost(g.get_number_nodes(), INT_MAX); 
   
     vector<int> parent(g.get_number_nodes(), -1); 
   
@@ -148,8 +148,8 @@ void primMST(graph g)
   
         for (auto i = adjlis -> at(u).begin(); i != adjlis -> at(u).end(); i++) 
         { 
-            int v = i -> getNode(); 
-            int weight = i -> getNode(); 
+            int v = i -> getNode().getNum(); 
+            int weight = i -> getWeight(); 
   
             if (inMST[v] == false && cost[v] > weight) 
             { 
@@ -160,7 +160,7 @@ void primMST(graph g)
         } 
     }
 
-    for (int i = 1; i < V; ++i) 
+    for (int i = 1; i < g.get_number_nodes(); ++i) // I think V = # vertices = # nodes, double check though
         printf("%d - %d\n", parent[i], i);
 } 
 
