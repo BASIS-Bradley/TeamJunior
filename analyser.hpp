@@ -109,9 +109,20 @@ class analyser {
                 }
             } 
         
-            printf("Vertex \t\t Distance from Source\n"); 
-            for (int i = 0; i < num_nodes; i++) 
-                printf("%d \t\t %d\n", i, dist[i]);
+            // printf("Vertex \t\t Distance from Source\n"); 
+            // for (int i = 0; i < num_nodes; i++) 
+            //     printf("%d \t\t %d\n", i, dist[i]);
+
+            // check if I did this right
+            ofstream ofs;
+            ofs.open("./results/dijkstra.txt", ofstream::out | ofstream::trunc); // clears text file
+            ofs.close();
+            ofstream myfile;
+            myfile.open ("./results/dijkstra.txt");
+            for (int i = 0; i < num_nodes; i++) {
+                myfile << i << " " << dist[i] << endl;
+            }
+            myfile.close();
         }
 
 
@@ -160,8 +171,19 @@ void primMST(graph g)
         } 
     }
 
-    for (int i = 1; i < g.get_number_nodes(); ++i) // I think V = # vertices = # nodes, double check though
-        printf("%d - %d\n", parent[i], i);
+    // for (int i = 1; i < g.get_number_nodes(); ++i) // I think V = # vertices = # nodes, double check though
+    //     printf("%d - %d\n", parent[i], i);
+
+    // check if I did this right
+    ofstream ofs;
+    ofs.open("./results/prim.txt", ofstream::out | ofstream::trunc); // clears text file
+    ofs.close();
+    ofstream myfile;
+    myfile.open ("./results/prim.txt");
+    for (int i = 0; i < g.get_number_nodes(); i++) {
+        myfile << parent[i] << " " << i << endl;
+    }
+    myfile.close();
 } 
 
 
