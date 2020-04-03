@@ -125,69 +125,125 @@ class analyser {
             myfile.close();
         }
 
+    //STILL NEEDS TESTING AND FORMATTING AND JUST ABOUT EVERYTHING ELSE
+        // void primMST(graph g) {
+        //     //okay so I don't know how to make this without pairs because i have no clue how PQs in the
+        //     //STL treats putting objects in heaps, with pairs you can order by weight (cost) and heap
+        //     //recognizes the first element of the pair as the thing to prioritize
+        //     priority_queue< pi, vector <pi> , greater<pi> > minheap; 
 
+        //     vector<vector<point>>* adjlis = g.get_lis();
 
-//STILL NEEDS TESTING AND FORMATTING AND JUST ABOUT EVERYTHING ELSE
-void primMST(graph g)
-{
-    //okay so I don't know how to make this without pairs because i have no clue how PQs in the
-    //STL treats putting objects in heaps, with pairs you can order by weight (cost) and heap
-    //recognizes the first element of the pair as the thing to prioritize
-    priority_queue< pi, vector <pi> , greater<pi> > minheap; 
+        //     //this is just the starting point, pretty sure it gets more stupid if it's negative
+        //     int src = 0; 
+        
+        //     vector<int> cost(g.get_number_nodes(), INT_MAX); 
+        
+        //     vector<int> parent(g.get_number_nodes(), -1); 
+        
+        //     vector<bool> inMST(g.get_number_nodes(), false); 
 
-    vector<vector<point>>* adjlis = g.get_lis();
+        //     //this is pushing the weight-node pairs, i don't want to figure out doing it with point objects because this is just easier (i think)
+        //     minheap.push(make_pair(0, src)); 
+        //     cost[src] = 0; 
+        
+        //     while (!minheap.empty()) 
+        //     { 
+        //         int u = minheap.top().second; 
+        //         minheap.pop(); 
+        
+        //         inMST[u] = true; 
+        
+        //         for (auto i = adjlis -> at(u).begin(); i != adjlis -> at(u).end(); i++) 
+        //         { 
+        //             int v = i -> getNode().getNum(); 
+        //             int weight = i -> getWeight(); 
+        
+        //             if (inMST[v] == false && cost[v] > weight) 
+        //             { 
+        //                 cost[v] = weight; 
+        //                 minheap.push(make_pair(cost[v], v)); 
+        //                 parent[v] = u; 
+        //             } 
+        //         } 
+        //     }
 
-    //this is just the starting point, pretty sure it gets more stupid if it's negative
-    int src = 0; 
-  
-    vector<int> cost(g.get_number_nodes(), INT_MAX); 
-  
-    vector<int> parent(g.get_number_nodes(), -1); 
-  
-    vector<bool> inMST(g.get_number_nodes(), false); 
+        //     // for (int i = 1; i < g.get_number_nodes(); ++i) // I think num_nodes = # vertices = # nodes, double check though
+        //     //     printf("%d - %d\n", parent[i], i);
 
-    //this is pushing the weight-node pairs, i don't want to figure out doing it with point objects because this is just easier (i think)
-    minheap.push(make_pair(0, src)); 
-    cost[src] = 0; 
-  
-    while (!minheap.empty()) 
-    { 
-        int u = minheap.top().second; 
-        minheap.pop(); 
-  
-        inMST[u] = true; 
-  
-        for (auto i = adjlis -> at(u).begin(); i != adjlis -> at(u).end(); i++) 
-        { 
-            int v = i -> getNode().getNum(); 
-            int weight = i -> getWeight(); 
-  
-            if (inMST[v] == false && cost[v] > weight) 
-            { 
-                cost[v] = weight; 
-                minheap.push(make_pair(cost[v], v)); 
-                parent[v] = u; 
+        //     // check if I did this right
+        //     ofstream ofs;
+        //     ofs.open("./results/prim.txt", ofstream::out | ofstream::trunc); // clears text file
+        //     ofs.close();
+        //     ofstream myfile;
+        //     myfile.open ("./results/prim.txt");
+        //     for (int i = 0; i < g.get_number_nodes(); i++) {
+        //         myfile << parent[i] << " " << i << endl;
+        //     }
+        //     myfile.close();
+        // } 
+
+        bool isCyclicUtil(graph a, int v, bool visited[], bool *recStack) { 
+            if (visited[v] == false) { 
+                visited[v] = true; 
+                recStack[v] = true; 
+        
+                for (auto i = a.get_lis() -> at(v).begin(); i != a.get_lis() -> at(v).end(); ++i) { 
+                    if (!visited[i -> getNode().getNum()] && isCyclicUtil(a, i -> getNode().getNum(), visited, recStack)) 
+                        return true; 
+                    else if (recStack[i -> getNode().getNum()]) 
+                        return true; 
+                } 
             } 
-        } 
-    }
 
-    // for (int i = 1; i < g.get_number_nodes(); ++i) // I think V = # vertices = # nodes, double check though
-    //     printf("%d - %d\n", parent[i], i);
+            recStack[v] = false;  
+            return false; 
+        }    
 
-    // check if I did this right
-    ofstream ofs;
-    ofs.open("./results/prim.txt", ofstream::out | ofstream::trunc); // clears text file
-    ofs.close();
-    ofstream myfile;
-    myfile.open ("./results/prim.txt");
-    for (int i = 0; i < g.get_number_nodes(); i++) {
-        myfile << parent[i] << " " << i << endl;
-    }
-    myfile.close();
-} 
+        bool isCyclicUtil(graph a, int v, bool visited[], int parent) { 
+            visited[v] = true; 
 
+            for (auto i = a.get_lis() -> at(v).begin(); i != a.get_lis() -> at(v).end(); ++i) { 
+                    if (!visited[i -> getNode().getNum()] && isCyclicUtil(a, i -> getNode().getNum(), visited, v)) 
+                        return true; 
+                    else if (i -> getNode().getNum() != parent) 
+                        return true; 
+            } 
+
+            return false; 
+        }
+        
+        bool isCyclic(graph a) { 
+            int num_nodes = a.get_number_nodes();
+            bool *visited = new bool[num_nodes]; 
+            if (a.get_directed()){
+                bool *recStack = new bool[num_nodes]; 
+                for (int i = 0; i < num_nodes; i++) { 
+                    visited[i] = false; 
+                    recStack[i] = false; 
+                } 
+            
+                for(int i = 0; i < num_nodes; i++) {
+                    if (isCyclicUtil(a, i, visited, recStack)) {
+                        return true; 
+                    }
+                }
+            
+                return false; 
+            } else {
+                for (int i = 0; i < num_nodes; i++)
+                    visited[i] = false;
+                for(int i = 0; i < num_nodes; i++) {
+                    if (!visited[i] && isCyclicUtil(a, i, visited, -1)) {
+                            return true;
+                    }
+                }
+
+                return false;
+            }
+
+        }
 
 };
-
 
 #endif

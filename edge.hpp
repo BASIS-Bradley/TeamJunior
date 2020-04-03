@@ -14,19 +14,19 @@ class edge {
         edge(int source, int dest, int weight) {
             v1 = source;
             v2 = dest;
-            this.weight = weight;
+            this -> weight = weight;
         }
 
         int getWeight() {
-            return this.weight;
+            return this -> weight;
         }
 
         int getSource() {
-            return this.v1;
+            return this -> v1;
         }
 
         int getDest(){
-            return this.v2;
+            return this -> v2;
         }
 
         bool operator()(edge e1, edge e2) {
