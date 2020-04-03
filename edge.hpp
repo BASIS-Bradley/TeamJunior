@@ -17,12 +17,27 @@ class edge {
             this.weight = weight;
         }
 
+        int getWeight() {
+            return this.weight;
+        }
+
+        int getSource() {
+            return this.v1;
+        }
+
+        int getDest(){
+            return this.v2;
+        }
+
+        bool operator()(edge e1, edge e2) {
+            return (e1.getWeight() > e2.getWeight());
+        }
+
 
     private:
         int v1;
         int v2;
         int weight;
-        //might have to add a custom comparator so that using STL sort is easy
 
 };
 
