@@ -1,13 +1,11 @@
-#pragma once
+#ifndef MCL_HPP_
+#define MCL_HPP_
 
 #include <eigen3/Eigen/Sparse>
 #include <eigen3/Eigen/Core>
 #include <eigen3/unsupported/Eigen/MatrixFunctions>
 #include <iostream>
 #include "graph.hpp"
-
-#ifndef MCL_HPP_
-#define MCL_HPP_
 
 class mcl {
     public:
