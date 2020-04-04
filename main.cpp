@@ -2,6 +2,7 @@
 #include <fstream>
 #include "analyser.hpp"
 #include "mcl.hpp"
+#include <chrono>
 #include <eigen3/Eigen/Core>
 
 using namespace std;
@@ -101,6 +102,109 @@ void test_clustering() {
     cout << Eigen::MatrixXd(s) << endl;
 }
 
+void runtime_testing() {
+    // GRAPH LOADING
+    // change as needed
+    cout << "Loading" << endl;
+    graph g(false, false, 4039);
+    read_ud_uw(g);
+    cout << "Finished Loading" << endl;
+
+    // CHOOSE WHICH TESTS TO RUN
+    bool degree = true;
+    bool dijkstra = true;
+    bool bfs = true; // bfs is broken
+    bool cyclic = true; // is this broken
+    bool prims = false; // change this once implemented
+    bool mclb = false; //mcl
+
+    analyser ana = analyser();
+
+    if(degree) {
+        // Parameters for find degree
+        int node = 4;
+
+        if(g.get_directed()) {
+            auto a_StartTime = std::chrono::system_clock::now();
+            int inDegree = ana.findInDegree(g, node);
+            auto a_EndTime = std::chrono::system_clock::now();
+            auto a_dur = std::chrono::duration_cast<std::chrono::milliseconds>(a_EndTime - a_StartTime).count();
+            cout << "Find in degree took " << a_dur << " ms" << endl;
+
+            auto b_StartTime = std::chrono::system_clock::now();
+            int outDegree = ana.findOutDegree(g, node);
+            auto b_EndTime = std::chrono::system_clock::now();
+            auto b_dur = std::chrono::duration_cast<std::chrono::milliseconds>(b_EndTime - b_StartTime).count();
+            cout << "Find out degree took " << a_dur << " ms" << endl;
+        } else {
+            auto c_StartTime = std::chrono::system_clock::now();
+            int degree = ana.findDegree(g, node);
+            auto c_EndTime = std::chrono::system_clock::now();
+            auto c_dur = std::chrono::duration_cast<std::chrono::milliseconds>(c_EndTime - c_StartTime).count();
+            cout << "Find degree took " << c_dur << " ms" << endl;
+        }
+    }
+
+    if(dijkstra) {
+        // Parameters for Dijkstra
+        int node = 8;
+
+        auto d_StartTime = std::chrono::system_clock::now();
+        ana.dijkstra(g, node);
+        auto d_EndTime = std::chrono::system_clock::now();
+        auto d_dur = std::chrono::duration_cast<std::chrono::milliseconds>(d_EndTime - d_StartTime).count();
+        cout << "Dijkstra (with file saving) took " << d_dur << " ms" << endl;
+    }
+
+    if(bfs) {
+        // Parameters for bfs
+        int node = 2;
+
+        auto e_StartTime = std::chrono::system_clock::now();
+        ana.bfs(g, node);
+        auto e_EndTime = std::chrono::system_clock::now();
+        auto e_dur = std::chrono::duration_cast<std::chrono::milliseconds>(e_EndTime - e_StartTime).count();
+        cout << "BFS took " << e_dur << " ms" << endl;
+    }
+
+    if(cyclic) {
+        auto f_StartTime = std::chrono::system_clock::now();
+        bool isCyclic = ana.isCyclic(g);
+        auto f_EndTime = std::chrono::system_clock::now();
+        auto f_dur = std::chrono::duration_cast<std::chrono::milliseconds>(f_EndTime - f_StartTime).count();
+        cout << "Find cyclic took " << f_dur << " ms" << endl;
+    }
+
+    if(prims) {
+        auto g_StartTime = std::chrono::system_clock::now();
+        // ana.primMST(g);
+        auto g_EndTime = std::chrono::system_clock::now();
+        auto g_dur = std::chrono::duration_cast<std::chrono::milliseconds>(g_EndTime - g_StartTime).count();
+        cout << "Prims (with file saving) took " << g_dur << " ms" << endl;
+    }
+
+    if(mclb) {
+        mcl a = mcl();
+
+        // Parameters for MCL
+        int trial_to_convergence = 1;
+        int expand_power = 2;
+        int inflation_power = 2;
+        bool add_self_loops = true;
+
+
+        auto h_StartTime = std::chrono::system_clock::now();
+        Eigen::SparseMatrix<double> s = a.mcl_unweighted(g, expand_power, inflation_power, trial_to_convergence, add_self_loops);
+        auto h_EndTime = std::chrono::system_clock::now();
+        auto h_dur = std::chrono::duration_cast<std::chrono::milliseconds>(h_EndTime - h_StartTime).count();
+        cout << "MCL took " << h_dur << " ms" << endl;
+
+        // still need to work on interpreting final matrix and getting clusters
+
+        // cout << Eigen::MatrixXd(s) << endl;
+    }
+}
+
 int main() {
-    test_clustering();
+    runtime_testing();
 }

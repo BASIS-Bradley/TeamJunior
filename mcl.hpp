@@ -87,6 +87,7 @@ class mcl {
                 std::cout << Eigen::MatrixXd(trans_mat) << std::endl;
                 for(int t = 0; t < max_loop; t++) { // run til convergence, dont know how to yet
                     // std::cout << trans_mat << std::endl;
+                    std::cout << t + 1 << " iteration" << std::endl;
                     expand(trans_mat);
                     inflate(trans_mat);
                     normize(trans_mat);
