@@ -65,7 +65,7 @@ class analyser {
                 // Get all adjacent vertices of the dequeued-
                 // // vertex s. If a adjacent has not been visited,--
                 // // then mark it visited and enqueue it
-                for (auto i = lis -> at(s.getNum()).begin(); i != lis -> at(s.getNum).end(); i++) {
+                for (auto i = lis -> at(s.getNum()).begin(); i != lis -> at(s.getNum()).end(); i++) {
                     if(!visited[i -> getNode().getNum()]) {
                         visited[i -> getNode().getNum()] = true;
                         queue.push_back(i -> getNode());
