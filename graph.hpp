@@ -10,6 +10,7 @@ class graph {
     private:
         vector<vector<point>> *lis; // from, to
         vector<vector<point>> *lis2; // to, from
+        // bool has_cycle;
         bool directed;
         bool weighted;
         int num_nodes;
@@ -113,7 +114,11 @@ class graph {
 
         int get_number_nodes() {
             return num_nodes;
-        }        
+        }     
+
+        // bool get_cyclic() {
+        //     return has_cycle;
+        // }   
 };
 
 #endif
