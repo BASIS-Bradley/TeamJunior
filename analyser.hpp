@@ -6,6 +6,7 @@
 #include <list>
 #include <limits.h>
 #define INF INT_MAX
+#define INF2 0x3f3f3f3f
 
 using namespace std;
 
@@ -93,34 +94,28 @@ class analyser {
         }
 
         void dijkstra(int src) { 
-            int dist[num_nodes];
-        
-            bool sptSet[num_nodes]; 
+            priority_queue<pi, vector <pi>, greater<pi>> minheap;
 
-            for (int i = 0; i < num_nodes; i++) 
-                dist[i] = INT_MAX, sptSet[i] = false; 
+            vector<int> dist(num_nodes, INF2); 
 
+            minheap.push(make_pair(0, src)); 
             dist[src] = 0; 
-            vector<vector<point>>* lis = a.get_lis();
 
-            for (int i = 0; i < num_nodes - 1; i++) {  
-                int u = minDistanceIndex(dist, sptSet); 
+            while (!pq.empty()) { 
+                int u = minheap.top().second; 
+                minheap.pop(); 
 
-                sptSet[u] = true; 
-
-                for (auto v = lis -> at(u).begin(); v != lis -> at(u).end(); v++) {
-                    int vIndex = v -> getNode().getNum();
-                    if (!sptSet[vIndex] && lis -> at(u).at(vIndex).getWeight() && dist[u] != INT_MAX && dist[u] + lis -> at(u).at(vIndex).getWeight() < dist[vIndex]) {
-                        dist[vIndex] = dist[u] + lis -> at(u).at(vIndex).getWeight(); 
-                    }
-                }
-            } 
+                for (auto i = a.get_lis() -> at(u).begin(); i != a.get_lis() -> at(u).end(); ++i) { 
+                    int v = i -> getNode().getNum(); 
+                    int weight = i -> getWeight(); 
         
-            // printf("Vertex \t\t Distance from Source\n"); 
-            // for (int i = 0; i < num_nodes; i++) 
-            //     printf("%d \t\t %d\n", i, dist[i]);
+                    if (dist[v] > dist[u] + weight) { 
+                        dist[v] = dist[u] + weight; 
+                        pq.push(make_pair(dist[v], v)); 
+                    } 
+                } 
+            }
 
-            // check if I did this right
             ofstream ofs;
             ofs.open("./results/dijkstra.txt", ofstream::out | ofstream::trunc); // clears text file
             ofs.close();
@@ -137,7 +132,7 @@ class analyser {
         //     //okay so I don't know how to make this without pairs because i have no clue how PQs in the
         //     //STL treats putting objects in heaps, with pairs you can order by weight (cost) and heap
         //     //recognizes the first element of the pair as the thing to prioritize
-        //     priority_queue< pi, vector <pi> , greater<pi> > minheap; 
+        //     priority_queue<pi, vector <pi>, greater<pi>> minheap; 
 
         //     vector<vector<point>>* adjlis = g.get_lis();
 
@@ -387,34 +382,27 @@ class analyser {
 
         void dijkstra(graph a, int src) { 
             int num_nodes = a.get_number_nodes();
-            int dist[num_nodes];
-        
-            bool sptSet[num_nodes]; 
+            priority_queue<pi, vector <pi>, greater<pi>> minheap;
 
-            for (int i = 0; i < num_nodes; i++) 
-                dist[i] = INT_MAX, sptSet[i] = false; 
+            vector<int> dist(num_nodes, INF2); 
 
+            minheap.push(make_pair(0, src)); 
             dist[src] = 0; 
-            vector<vector<point>>* lis = a.get_lis();
 
-            for (int i = 0; i < num_nodes - 1; i++) {  
-                int u = minDistanceIndex(a, dist, sptSet); 
+            while (!pq.empty()) { 
+                int u = minheap.top().second; 
+                minheap.pop(); 
 
-                sptSet[u] = true; 
-
-                for (auto v = lis -> at(u).begin(); v != lis -> at(u).end(); v++) {
-                    int vIndex = v -> getNode().getNum();
-                    if (!sptSet[vIndex] && lis -> at(u).at(vIndex).getWeight() && dist[u] != INT_MAX && dist[u] + lis -> at(u).at(vIndex).getWeight() < dist[vIndex]) {
-                        dist[vIndex] = dist[u] + lis -> at(u).at(vIndex).getWeight(); 
-                    }
-                }
-            } 
+                for (auto i = a.get_lis() -> at(u).begin(); i != a.get_lis() -> at(u).end(); ++i) { 
+                    int v = i -> getNode().getNum(); 
+                    int weight = i -> getWeight(); 
         
-            // printf("Vertex \t\t Distance from Source\n"); 
-            // for (int i = 0; i < num_nodes; i++) 
-            //     printf("%d \t\t %d\n", i, dist[i]);
-
-            // check if I did this right
+                    if (dist[v] > dist[u] + weight) { 
+                        dist[v] = dist[u] + weight; 
+                        pq.push(make_pair(dist[v], v)); 
+                    } 
+                } 
+            }
             ofstream ofs;
             ofs.open("./results/dijkstra.txt", ofstream::out | ofstream::trunc); // clears text file
             ofs.close();
