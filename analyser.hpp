@@ -311,6 +311,53 @@ class analyser {
             }
         }
 
+        int FordFulkerson(, int &source, int &sink) {
+            int maxflow = 0;
+            vector<vector<point>>* lis = a.get_lis();
+
+            vector<vector<int>> res_lis;
+            int num_nodes = a.get_number_nodes();
+            for(int i; i < num_nodes; i++) {
+                vector<int> row;
+                res_lis.push_back(row);
+                for(auto j = i -> begin(); j != i -> end(); j++) {
+                    res_lis[i].push_back(lis -> at(i).at(j -> getWeight()))
+                }
+            }
+ 
+            vector<int> parent;
+            for(int i = 0; i < num_nodes; i++) 
+                parent.push_back(-1);
+
+            while(FordFulkersonUtil(res_lis, source, sink, parent)) {
+                int pathflow = 10000007;
+
+                int v = sink;
+                while(v != source) {
+                    int u = parent[v];
+
+                    int capacity = res_lis[u][v];
+                    pathflow = min(pathflow, capacity);
+
+                    v = u;
+                }
+
+                v = sink;
+                while(v != source) {
+                    int u = parent[v];
+                    
+                    res_lis[u][v] -= pathflow;
+                    res_lis[v][u] += pathflow;
+
+                    v = u;
+                }
+
+                maxflow += pathflow;
+            }
+            
+            return maxflow;
+        }
+
         int countEdges(graph a) {
             return a.get_edges();
         }
@@ -601,6 +648,85 @@ class analyser {
                 cout << "Graph is not a directed acyclic graph" << endl;
             }
         }
+
+        bool FordFulkersonUtil(vector<vector<int>> &res_lis, int &src, int &sink, vector<int> &parent) {
+            int num_nodes = res_lis.size();
+            bool visited[num_nodes] = {false};
+
+            queue<int> q;
+
+            q.push(src);
+            visited[src] = true;
+            parent[src] = -1;
+
+            while (!q.empty()) {
+                int u = q.front();
+                q.pop();
+
+                for (int i = 0; i < num_nodes; i++) {
+                    int v = i;
+                    int capacity = res_lis[u][v];
+              
+                    if (!visited[v] && capacity > 0) {
+                        q.push(v);
+                        parent[v] = u;
+                        visited[v] = true;
+                    }
+                }
+            }
+
+            if (visited[sink]) 
+                return true;
+                
+            return false;
+        }  
+
+        int FordFulkerson(graph a, int &source, int &sink) {
+            int maxflow = 0;
+            vector<vector<point>>* lis = a.get_lis();
+
+            vector<vector<int>> res_lis;
+            int num_nodes = a.get_number_nodes();
+            for(int i; i < num_nodes; i++) {
+                vector<int> row;
+                res_lis.push_back(row);
+                for(auto j = i -> begin(); j != i -> end(); j++) {
+                    res_lis[i].push_back(lis -> at(i).at(j -> getWeight()))
+                }
+            }
+ 
+            vector<int> parent;
+            for(int i = 0; i < num_nodes; i++) 
+                parent.push_back(-1);
+
+            while(FordFulkersonUtil(res_lis, source, sink, parent)) {
+                int pathflow = 10000007;
+
+                int v = sink;
+                while(v != source) {
+                    int u = parent[v];
+
+                    int capacity = res_lis[u][v];
+                    pathflow = min(pathflow, capacity);
+
+                    v = u;
+                }
+
+                v = sink;
+                while(v != source) {
+                    int u = parent[v];
+                    
+                    res_lis[u][v] -= pathflow;
+                    res_lis[v][u] += pathflow;
+.
+                    v = u;
+                }
+
+                maxflow += pathflow;
+            }
+            
+            return maxflow;
+        } 
 };
 
 #endif
