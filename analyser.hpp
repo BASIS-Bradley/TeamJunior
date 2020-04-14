@@ -5,6 +5,7 @@
 #include <stack>
 #include <list>
 #include <limits.h>
+#include <fstream>
 #define INF INT_MAX
 #define INF2 0x3f3f3f3f
 
@@ -74,7 +75,7 @@ class analyser {
                 // Get all adjacent vertices of the dequeued-
                 // // vertex s. If a adjacent has not been visited,--
                 // // then mark it visited and enqueue it
-                for (auto i = lis -> at(s.getNum()).begin(); i != lis -> at(s.getNum).end(); i++) {
+                for (auto i = lis -> at(s.getNum()).begin(); i != lis -> at(s.getNum()).end(); i++) {
                     if(!visited[i -> getNode().getNum()]) {
                         visited[i -> getNode().getNum()] = true;
                         queue.push_back(i -> getNode());
@@ -101,7 +102,7 @@ class analyser {
             minheap.push(make_pair(0, src)); 
             dist[src] = 0; 
 
-            while (!pq.empty()) { 
+            while (!minheap.empty()) { 
                 int u = minheap.top().second; 
                 minheap.pop(); 
 
@@ -111,7 +112,7 @@ class analyser {
         
                     if (dist[v] > dist[u] + weight) { 
                         dist[v] = dist[u] + weight; 
-                        pq.push(make_pair(dist[v], v)); 
+                        minheap.push(make_pair(dist[v], v)); 
                     } 
                 } 
             }
@@ -311,7 +312,7 @@ class analyser {
             }
         }
 
-        int FordFulkerson(, int &source, int &sink) {
+        int FordFulkerson(int &source, int &sink) {
             int maxflow = 0;
             vector<vector<point>>* lis = a.get_lis();
 
@@ -320,7 +321,7 @@ class analyser {
             for(int i; i < num_nodes; i++) {
                 vector<int> row;
                 res_lis.push_back(row);
-                for(auto j = i -> begin(); j != i -> end(); j++) {
+                for(auto j = a.get_lis() -> at(i).begin(); j != a.get_lis() -> at(i).end(); ++j) {
                     res_lis[i].push_back(lis -> at(i).at(j -> getWeight()))
                 }
             }
@@ -436,7 +437,7 @@ class analyser {
             minheap.push(make_pair(0, src)); 
             dist[src] = 0; 
 
-            while (!pq.empty()) { 
+            while (!minheap.empty()) { 
                 int u = minheap.top().second; 
                 minheap.pop(); 
 
@@ -446,7 +447,7 @@ class analyser {
         
                     if (dist[v] > dist[u] + weight) { 
                         dist[v] = dist[u] + weight; 
-                        pq.push(make_pair(dist[v], v)); 
+                        minheap.push(make_pair(dist[v], v)); 
                     } 
                 } 
             }
@@ -690,7 +691,7 @@ class analyser {
             for(int i; i < num_nodes; i++) {
                 vector<int> row;
                 res_lis.push_back(row);
-                for(auto j = i -> begin(); j != i -> end(); j++) {
+                for(auto j = a.get_lis() -> at(i).begin(); j != a.get_lis() -> at(i).end(); ++j) {
                     res_lis[i].push_back(lis -> at(i).at(j -> getWeight()))
                 }
             }
