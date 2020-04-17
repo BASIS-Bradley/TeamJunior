@@ -322,7 +322,7 @@ class analyser {
                 vector<int> row;
                 res_lis.push_back(row);
                 for(auto j = a.get_lis() -> at(i).begin(); j != a.get_lis() -> at(i).end(); ++j) {
-                    res_lis[i].push_back(lis -> at(i).at(j -> getWeight()))
+                    res_lis[i].push_back(lis -> at(i).at(j -> getWeight()));
                 }
             }
  
@@ -692,7 +692,7 @@ class analyser {
                 vector<int> row;
                 res_lis.push_back(row);
                 for(auto j = a.get_lis() -> at(i).begin(); j != a.get_lis() -> at(i).end(); ++j) {
-                    res_lis[i].push_back(lis -> at(i).at(j -> getWeight()))
+                    res_lis[i].push_back(lis -> at(i).at(j -> getWeight()));
                 }
             }
  
@@ -719,7 +719,6 @@ class analyser {
                     
                     res_lis[u][v] -= pathflow;
                     res_lis[v][u] += pathflow;
-.
                     v = u;
                 }
 
