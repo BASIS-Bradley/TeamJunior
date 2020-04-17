@@ -22,7 +22,7 @@ Our code is made up of various hpp files:
 #### [node.hpp](TeamJunior/node.hpp)
   * Most basic object for each point in the graph containing the number of the node
   
-#### [point.hpp](TeamJunior/point.hpp)
+#### [point.hpp](./TeamJunior/point.hpp)
   * Object representing each point of the graph that creates a node as well as retrieves it and its weight
   
 #### [graph.hpp](TeamJunior/graph.hpp)
