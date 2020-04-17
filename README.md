@@ -17,25 +17,25 @@ All the data we used were various types of graphs such as directed and weighted,
 Our code is made up of various hpp files:
 
 #### [edge.hpp](TeamJunior/edge.hpp)
-  *//Shariq add the functionality//
+  * //Shariq add the functionality//
 
 #### [node.hpp](TeamJunior/node.hpp)
-  *Most basic object for each point in the graph containing the number of the node
+  * Most basic object for each point in the graph containing the number of the node
   
 #### [point.hpp](TeamJunior/point.hpp)
-  *Object representing each point of the graph that creates a node as well as retrieves it and its weight
+  * Object representing each point of the graph that creates a node as well as retrieves it and its weight
   
 #### [graph.hpp](TeamJunior/graph.hpp)
-  *Object that creates and prints a collection of the points in the graph interrelated by edges as well as retrieves its properties
+  * Object that creates and prints a collection of the points in the graph interrelated by edges as well as retrieves its properties
   
 #### [analyser.hpp](TeamJunior/analyser.hpp)
-  *Contains all but one of the analysis funtions that can be run on the graphs, which writes the results to text files 
+  * Contains all but one of the analysis funtions that can be run on the graphs, which writes the results to text files 
   
 #### [mcl.hpp](TeamJunior/mcl.hpp)
-  *Contains our Markov Clustering Algorithm
+  * Contains our Markov Clustering Algorithm
   
 #### [main.hpp](TeamJunior/main.hpp)
-  *Contains the method to create and import graphs as well as run funtions on those graphs
+  * Contains the method to create and import graphs as well as run funtions on those graphs
 
 ## Running the Code
 
