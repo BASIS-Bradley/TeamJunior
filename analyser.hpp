@@ -327,25 +327,30 @@ class analyser {
             vector<vector<int>> res_lis;
             int num_nodes = a.get_number_nodes();
             for(int i; i < num_nodes; i++) {
-                int jj = 0;
+                // int jj = 0;
                 vector<int> res_lis2;
-                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); ++j) {
-                    if(jj < j -> getNode().getNum()) {
-                        res_lis2.push_back(0);
-                    } else
-                    // r_lis[i][j -> getNode().getNum()] = j -> getWeight;
-                    if(jj == j -> getNode().getNum()) {
-                        res_lis2.push_back(j -> getWeight());
-                    } else {
-                        cerr << "something went wrong with ford fulkerson" << endl;
-                        break;
-                    }
-                    ++jj;
+                int r_lis[num_nodes] = {0};
+                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); j++) {
+                    // if(jj < j -> getNode().getNum()) {
+                    //     res_lis2.push_back(0);
+                    // } else
+                    // // r_lis[i][j -> getNode().getNum()] = j -> getWeight;
+                    // if(jj == j -> getNode().getNum()) {
+                    //     res_lis2.push_back(j -> getWeight());
+                    // } else {
+                    //     cerr << "something went wrong with ford fulkerson" << endl;
+                    //     break;
+                    // }
+                    // ++jj;
+                    r_lis[j -> getNode().getNum()] = j -> getWeight();
                 }
-                if(res_lis2.empty()) {
-                    for(int i = 0; i < num_nodes; i++) {
-                        res_lis2.push_back(0);
-                    }
+                // if(res_lis2.empty()) {
+                //     for(int i = 0; i < num_nodes; i++) {
+                //         res_lis2.push_back(0);
+                //     }
+                // }
+                for(int eger = 0; eger < num_nodes; eger++) {
+                    res_lis2.push_back(r_lis[eger]);
                 }
                 res_lis.push_back(res_lis2);
             }
@@ -712,28 +717,34 @@ class analyser {
             vector<vector<point>>* lis = a.get_lis();
 
             int num_nodes = a.get_number_nodes();
-            int r_lis[num_nodes][num_nodes] = {0};
+            // int r_lis[num_nodes][num_nodes] = {{0}};
+            // cerr << "break" << endl;
             vector<vector<int>> res_lis;
             for(int i; i < num_nodes; i++) {
-                int jj = 0;
+                // int jj = 0;
                 vector<int> res_lis2;
-                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); ++j) {
-                    if(jj < j -> getNode().getNum()) {
-                        res_lis2.push_back(0);
-                    } else
-                    // r_lis[i][j -> getNode().getNum()] = j -> getWeight;
-                    if(jj == j -> getNode().getNum()) {
-                        res_lis2.push_back(j -> getWeight());
-                    } else {
-                        cerr << "something went wrong with ford fulkerson" << endl;
-                        break;
-                    }
-                    ++jj;
+                int r_lis[num_nodes] = {0};
+                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); j++) {
+                    // if(jj < j -> getNode().getNum()) {
+                    //     res_lis2.push_back(0);
+                    // } else
+                    // // r_lis[i][j -> getNode().getNum()] = j -> getWeight;
+                    // if(jj == j -> getNode().getNum()) {
+                    //     res_lis2.push_back(j -> getWeight());
+                    // } else {
+                    //     cerr << "something went wrong with ford fulkerson" << endl;
+                    //     break;
+                    // }
+                    // ++jj;
+                    r_lis[j -> getNode().getNum()] = j -> getWeight();
                 }
-                if(res_lis2.empty()) {
-                    for(int i = 0; i < num_nodes; i++) {
-                        res_lis2.push_back(0);
-                    }
+                // if(res_lis2.empty()) {
+                //     for(int i = 0; i < num_nodes; i++) {
+                //         res_lis2.push_back(0);
+                //     }
+                // }
+                for(int eger = 0; eger < num_nodes; eger++) {
+                    res_lis2.push_back(r_lis[eger]);
                 }
                 res_lis.push_back(res_lis2);
             }

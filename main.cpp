@@ -113,8 +113,10 @@ void runtime_testing() {
     bool dijkstra = true;
     bool bfs = true; // bfs is broken
     bool cyclic = true; // is this broken
-    bool prims = false; // change this once implemented
+    bool prims = true; // change this once implemented
     bool mclb = false; //mcl
+    bool ford_fulkerson = true;
+    bool topological_sort = true;
 
     analyser ana = analyser();
 
@@ -175,7 +177,7 @@ void runtime_testing() {
 
     if(prims) {
         auto g_StartTime = std::chrono::system_clock::now();
-        // ana.primMST(g);
+        ana.primMST(g);
         auto g_EndTime = std::chrono::system_clock::now();
         auto g_dur = std::chrono::duration_cast<std::chrono::milliseconds>(g_EndTime - g_StartTime).count();
         cout << "Prims (with file saving) took " << g_dur << " ms" << endl;
@@ -198,8 +200,30 @@ void runtime_testing() {
         cout << "MCL took " << h_dur << " ms" << endl;
 
         // still need to work on interpreting final matrix and getting clusters
+        // only works for small matrices, was going to do spectral clustering but that would take even more time
 
         // cout << Eigen::MatrixXd(s) << endl;
+    }
+
+    if(ford_fulkerson) {
+        // Parameters for Ford Fulkerson
+        int source = 0;
+        int sink = 10;
+
+        auto i_StartTime = std::chrono::system_clock::now();
+        int max_flow = ana.FordFulkerson(g, source, sink);
+        auto i_EndTime = std::chrono::system_clock::now();
+        auto i_dur = std::chrono::duration_cast<std::chrono::milliseconds>(i_EndTime - i_StartTime).count();
+        cout << "Ford Fulkerson took " << i_dur << " ms" << endl;
+        cout << "-----Max Flow was " << max_flow << endl;
+    }
+
+    if(topological_sort) {
+        auto j_StartTime = std::chrono::system_clock::now();
+        ana.topologicalSort(g);
+        auto j_EndTime = std::chrono::system_clock::now();
+        auto j_dur = std::chrono::duration_cast<std::chrono::milliseconds>(j_EndTime - j_StartTime).count();
+        cout << "Topological Sorting took " << j_dur << " ms" << endl;
     }
 }
 
