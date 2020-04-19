@@ -3,3 +3,4 @@ I fixed Ford Fulkerson algo (still needs testing), mandatory
 We still do not have a clustering algo that uses distances from dijkstra as a heuristic
 Fix up readme
 bfs is also broken I think
+dijkstra is broken

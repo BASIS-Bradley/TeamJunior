@@ -13,9 +13,10 @@ graph graph_d_w(false,true);
 
 
 void read_ud_uw (graph g){
-    ifstream infile("./data/facebook_undirected.txt");
+    ifstream infile("./data/facebook_ud_uw.txt");
     int a, b;
     while (infile >> a >> b) {
+        // cout << a << b << endl;
         g.addEdge(a,b);
     }
     
@@ -131,6 +132,7 @@ void runtime_testing() {
     graph g(false, false, 4039);
     read_ud_uw(g);
     cout << "Finished Loading" << endl;
+    // g.print_graph();
 
     // CHOOSE WHICH TESTS TO RUN
     bool degree = true;
@@ -182,7 +184,7 @@ void runtime_testing() {
 
     if(bfs) {
         // Parameters for bfs
-        int node = 123;
+        int node = 3980;
 
         auto e_StartTime = std::chrono::system_clock::now();
         ana.bfs(g, node);
@@ -197,6 +199,11 @@ void runtime_testing() {
         auto f_EndTime = std::chrono::system_clock::now();
         auto f_dur = std::chrono::duration_cast<std::chrono::milliseconds>(f_EndTime - f_StartTime).count();
         cout << "Find cyclic took " << f_dur << " ms" << endl;
+        if(isCyclic) {
+            cout << "------ Graph is cyclic" << endl;
+        } else {
+            cout << "------ Graph is not cyclic" << endl;
+        }
     }
 
     if(prims) {
@@ -252,6 +259,6 @@ void runtime_testing() {
 }
 
 int main() {
-    // runtime_testing();
-    test_bfs();
+    runtime_testing();
+    // test_bfs();
 }

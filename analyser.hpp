@@ -268,24 +268,26 @@ class analyser {
                 bool *visited = new bool[num_nodes]; 
                 for (int i = 0; i < num_nodes; i++) 
                     visited[i] = false; 
+                
+                ofstream ofs;
+                ofs.open("./results/topological_sort.txt", ofstream::out | ofstream::trunc); // clears text file
+                ofs.close();
+
 
                 for (int i = 0; i < num_nodes; i++) 
                     if (!visited[i]) 
                         topologicalSortUtil(i, visited, Stack); 
 
+                ofstream myfile;
+                myfile.open ("./results/topological_sort.txt");
+
+
                 while (Stack.empty() == false) { 
                     // cout << Stack.top() << " "
-                    ofstream ofs;
-                    ofs.open("./results/topological_sort.txt", ofstream::out | ofstream::trunc); // clears text file
-                    ofs.close();
-                    ofstream myfile;
-                    myfile.open ("./results/topological_sort.txt");
-                    for (int i = 0; i < num_nodes; i++) {
-                        myfile << Stack.top() << endl;
-                    }
-                    myfile.close();
+                    myfile << Stack.top() << endl;
                     Stack.pop(); 
                 } 
+                myfile.close();
             } else {
                 cout << "Graph is not a directed acyclic graph" << endl;
             }
@@ -394,34 +396,34 @@ class analyser {
             return maxflow;
         }
 
-        int countEdges(graph a) {
-            return a.get_edges();
+        int countEdges(graph b) {
+            return b.get_edges();
         }
 
-         int findInDegree(graph a, int x) { // x = node number
+         int findInDegree(graph b, int x) { // x = node number
             int degree = 0;          
-            vector<vector<point>>* lis = a.get_lis2();
+            vector<vector<point>>* lis = b.get_lis2();
             for (auto i = (lis -> at(x)).begin(); i != (lis -> at(x)).end(); i++) {
                 ++degree;              
             }
             return degree;  
         }
 
-        int findOutDegree(graph a, int x) {
+        int findOutDegree(graph b, int x) {
             int degree = 0;          
-            vector<vector<point>>* lis = a.get_lis();
+            vector<vector<point>>* lis = b.get_lis();
             for (auto i = (lis -> at(x)).begin(); i != (lis -> at(x)).end(); i++) {
                 ++degree;              
             }
             return degree;  
         }
 
-        int findDegree(graph a, int x) { // undirected graph
-            return findOutDegree(a, x);
+        int findDegree(graph b, int x) { // undirected graph
+            return findOutDegree(b, x);
         }
 
-        void bfs(graph a, int s) {
-            int num_nodes = a.get_number_nodes();
+        void bfs(graph b, int s) {
+            int num_nodes = b.get_number_nodes();
             bool *visited = new bool[num_nodes];
             for(int i = 0; i < num_nodes; i++) {
                 visited[i] = false;
@@ -432,20 +434,19 @@ class analyser {
             //add node that was passed to list of visited and then queue it up
             visited[s] = true;
             queue.push_back(s);
-            vector<vector<point>>* lis = a.get_lis();
+            vector<vector<point>>* lis = b.get_lis();
             ofstream ofs;
             ofs.open("./results/bfs.txt", ofstream::out | ofstream::trunc); // clears text file
             ofs.close();
+            ofstream myfile;
+            myfile.open ("./results/bfs.txt");
 
             while(!queue.empty()) {
 
                 //pop vertex from the front and print it
                 int ss = queue.front();
                 // cout << ss << ", ";
-                ofstream myfile;
-                myfile.open ("./results/bfs.txt", std::ios_base::app);
                 myfile << ss << endl;
-                myfile.close();
                 queue.pop_front();
 
                 // Get all adjacent vertices of the dequeud vertex s. If a adjacent has not been visited, then mark it visited and enqueue it
@@ -456,20 +457,21 @@ class analyser {
                     }
                 }
             }
+            myfile.close();
         }
 
-        int minDistanceIndex(graph a, int dist[], bool sptSet[]) { 
+        int minDistanceIndex(graph b, int dist[], bool sptSet[]) { 
             int min = INT_MAX, min_index; 
         
-            for (int v = 0; v < a.get_number_nodes(); v++) 
+            for (int v = 0; v < b.get_number_nodes(); v++) 
                 if (sptSet[v] == false && dist[v] <= min) 
                     min = dist[v], min_index = v; 
         
             return min_index; 
         }
 
-        void dijkstra(graph a, int src) { 
-            int num_nodes = a.get_number_nodes();
+        void dijkstra(graph b, int src) { 
+            int num_nodes = b.get_number_nodes();
             priority_queue<pi, vector <pi>, greater<pi>> minheap;
 
             vector<int> dist(num_nodes, INF2); 
@@ -481,7 +483,7 @@ class analyser {
                 int u = minheap.top().second; 
                 minheap.pop(); 
 
-                for (auto i = a.get_lis() -> at(u).begin(); i != a.get_lis() -> at(u).end(); ++i) { 
+                for (auto i = b.get_lis() -> at(u).begin(); i != b.get_lis() -> at(u).end(); ++i) { 
                     int v = i -> getNode().getNum(); 
                     int weight = i -> getWeight(); 
         
@@ -561,13 +563,13 @@ class analyser {
             myfile.close();
         } 
 
-        bool isCyclicUtil(graph a, int v, bool visited[], bool *rStack) { 
+        bool isCyclicUtil(graph b, int v, bool visited[], bool *rStack) { 
             if (visited[v] == false) { 
                 visited[v] = true; 
                 rStack[v] = true; 
         
-                for (auto i = a.get_lis() -> at(v).begin(); i != a.get_lis() -> at(v).end(); ++i) { 
-                    if (!visited[i -> getNode().getNum()] && isCyclicUtil(a, i -> getNode().getNum(), visited, rStack)) 
+                for (auto i = b.get_lis() -> at(v).begin(); i != b.get_lis() -> at(v).end(); ++i) { 
+                    if (!visited[i -> getNode().getNum()] && isCyclicUtil(b, i -> getNode().getNum(), visited, rStack)) 
                         return true; 
                     else if (rStack[i -> getNode().getNum()]) 
                         return true; 
@@ -578,11 +580,11 @@ class analyser {
             return false; 
         }    
 
-        bool isCyclicUtil(graph a, int v, bool visited[], int parent) { 
+        bool isCyclicUtil(graph b, int v, bool visited[], int parent) { 
             visited[v] = true; 
 
-            for (auto i = a.get_lis() -> at(v).begin(); i != a.get_lis() -> at(v).end(); ++i) { 
-                    if (!visited[i -> getNode().getNum()] && isCyclicUtil(a, i -> getNode().getNum(), visited, v)) 
+            for (auto i = b.get_lis() -> at(v).begin(); i != b.get_lis() -> at(v).end(); ++i) { 
+                    if (!visited[i -> getNode().getNum()] && isCyclicUtil(b, i -> getNode().getNum(), visited, v)) 
                         return true; 
                     else if (i -> getNode().getNum() != parent) 
                         return true; 
@@ -591,10 +593,10 @@ class analyser {
             return false; 
         }
         
-        bool isCyclic(graph a) { 
-            int num_nodes = a.get_number_nodes();
+        bool isCyclic(graph b) { 
+            int num_nodes = b.get_number_nodes();
             bool *visited = new bool[num_nodes]; 
-            if (a.get_directed()){
+            if (b.get_directed()){
                 bool *rStack = new bool[num_nodes]; 
                 for (int i = 0; i < num_nodes; i++) { 
                     visited[i] = false; 
@@ -602,7 +604,7 @@ class analyser {
                 } 
             
                 for(int i = 0; i < num_nodes; i++) {
-                    if (isCyclicUtil(a, i, visited, rStack)) {
+                    if (isCyclicUtil(b, i, visited, rStack)) {
                         return true; 
                     }
                 }
@@ -612,7 +614,7 @@ class analyser {
                 for (int i = 0; i < num_nodes; i++)
                     visited[i] = false;
                 for(int i = 0; i < num_nodes; i++) {
-                    if (!visited[i] && isCyclicUtil(a, i, visited, -1)) {
+                    if (!visited[i] && isCyclicUtil(b, i, visited, -1)) {
                             return true;
                     }
                 }
@@ -622,19 +624,19 @@ class analyser {
 
         }
 
-        void topologicalSortUtil(graph a, int v, bool visited[], stack<int> &Stack) { 
+        void topologicalSortUtil(graph b, int v, bool visited[], stack<int> &Stack) { 
             visited[v] = true; 
         
-            for (auto i = a.get_lis() -> at(v).begin(); i != a.get_lis() -> at(v).end(); ++i) 
+            for (auto i = b.get_lis() -> at(v).begin(); i != b.get_lis() -> at(v).end(); ++i) 
                 if (!visited[i -> getNode().getNum()]) 
-                    topologicalSortUtil(a, i -> getNode().getNum(), visited, Stack); 
+                    topologicalSortUtil(b, i -> getNode().getNum(), visited, Stack); 
 
             Stack.push(v); 
         }
 
-        void topologicalSort(graph a) {
-            if (a.get_directed() && !isCyclic(a)) {
-                int num_nodes = a.get_number_nodes();
+        void topologicalSort(graph b) {
+            if (b.get_directed() && !isCyclic(b)) {
+                int num_nodes = b.get_number_nodes();
 
                 stack<int> Stack; 
 
@@ -644,29 +646,26 @@ class analyser {
 
                 for (int i = 0; i < num_nodes; i++) 
                     if (!visited[i]) 
-                        topologicalSortUtil(a, i, visited, Stack); 
+                        topologicalSortUtil(b, i, visited, Stack); 
+
+                ofstream myfile;
+                myfile.open ("./results/topological_sort.txt");
+
 
                 while (Stack.empty() == false) { 
-                    // cout << Stack.top() << " "; 
-                    ofstream ofs;
-                    ofs.open("./results/topological_sort.txt", ofstream::out | ofstream::trunc); // clears text file
-                    ofs.close();
-                    ofstream myfile;
-                    myfile.open ("./results/topological_sort.txt");
-                    for (int i = 0; i < num_nodes; i++) {
-                        myfile << Stack.top() << endl;
-                    }
-                    myfile.close();
+                    // cout << Stack.top() << " "
+                    myfile << Stack.top() << endl;
                     Stack.pop(); 
                 } 
+                myfile.close();
             } else {
                 cout << "Graph is not a directed acyclic graph" << endl;
             }
         }
 
-        void shortestPath(graph a, int s) {
-            if (a.get_directed() && !isCyclic(a)) {
-                int num_nodes = a.get_number_nodes();
+        void shortestPath(graph b, int s) {
+            if (b.get_directed() && !isCyclic(b)) {
+                int num_nodes = b.get_number_nodes();
                 stack<int> Stack; 
                 int dist[num_nodes]; 
 
@@ -676,7 +675,7 @@ class analyser {
 
                 for (int i = 0; i < num_nodes; i++) 
                     if (visited[i] == false) 
-                        topologicalSortUtil(a, i, visited, Stack); 
+                        topologicalSortUtil(b, i, visited, Stack); 
 
                 for (int i = 0; i < num_nodes; i++) 
                     dist[i] = INF; 
@@ -687,7 +686,7 @@ class analyser {
                     Stack.pop(); 
 
                     if (dist[u] != INF) { 
-                    for (auto i = a.get_lis2() -> at(u).begin(); i != a.get_lis2() -> at(u).end(); ++i) 
+                    for (auto i = b.get_lis2() -> at(u).begin(); i != b.get_lis2() -> at(u).end(); ++i) 
                         if (dist[i -> getNode().getNum()] > dist[u] + i -> getWeight()) 
                             dist[i -> getNode().getNum()] = dist[u] + i -> getWeight(); 
                     } 
@@ -732,11 +731,11 @@ class analyser {
             return false;
         }  
 
-        int FordFulkerson(graph a, int &source, int &sink) {
+        int FordFulkerson(graph b, int &source, int &sink) {
             int maxflow = 0;
-            vector<vector<point>>* lis = a.get_lis();
+            vector<vector<point>>* lis = b.get_lis();
 
-            int num_nodes = a.get_number_nodes();
+            int num_nodes = b.get_number_nodes();
             // int r_lis[num_nodes][num_nodes] = {{0}};
             // cerr << "break" << endl;
             vector<vector<int>> res_lis;
