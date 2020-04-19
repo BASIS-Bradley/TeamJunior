@@ -53,13 +53,14 @@ class analyser {
         }
 
         void bfs(node s) {
-            //make helper array that keeps tracks of which nodes have been visited, sets it all to false before starting
+            // helper array that keeps tracks of which nodes have been visited
             bool *visited = new bool[num_nodes];
             for(int i = 0; i < num_nodes; i++) {
                 visited[i] = false;
             }
-            //creates a queue for the BFS, list data stucture makes sense https://embeddedartistry.com/blog/2017/09/11/choosing-the-right-container-sequential-containers/
+            
             list<node> queue;
+
             //add node that was passed to list of visited and then queue it up
             visited[s.getNum()] = true;
             queue.push_back(s);
@@ -72,9 +73,7 @@ class analyser {
                 cout << s.getNum() << ", ";
                 queue.pop_front();
 
-                // Get all adjacent vertices of the dequeued-
-                // // vertex s. If a adjacent has not been visited,--
-                // // then mark it visited and enqueue it
+                // Get all adjacent vertices of the dequeud vertex s. If a adjacent has not been visited, then mark it visited and enqueue it
                 for (auto i = lis -> at(s.getNum()).begin(); i != lis -> at(s.getNum()).end(); i++) {
                     if(!visited[i -> getNode().getNum()]) {
                         visited[i -> getNode().getNum()] = true;
@@ -128,63 +127,63 @@ class analyser {
             myfile.close();
         }
 
-    //STILL NEEDS TESTING AND FORMATTING AND JUST ABOUT EVERYTHING ELSE
-        // void primMST(graph g) {
-        //     //okay so I don't know how to make this without pairs because i have no clue how PQs in the
-        //     //STL treats putting objects in heaps, with pairs you can order by weight (cost) and heap
-        //     //recognizes the first element of the pair as the thing to prioritize
-        //     priority_queue<pi, vector <pi>, greater<pi>> minheap; 
+    // STILL NEEDS TESTING AND FORMATTING AND JUST ABOUT EVERYTHING ELSE
+        void primMST(graph g) {
+            //okay so I don't know how to make this without pairs because i have no clue how PQs in the
+            //STL treats putting objects in heaps, with pairs you can order by weight (cost) and heap
+            //recognizes the first element of the pair as the thing to prioritize
+            priority_queue<pi, vector <pi>, greater<pi>> minheap; 
 
-        //     vector<vector<point>>* adjlis = g.get_lis();
+            vector<vector<point>>* adjlis = g.get_lis();
 
-        //     //this is just the starting point, pretty sure it gets more stupid if it's negative
-        //     int src = 0; 
+            //this is just the starting point, pretty sure it gets more stupid if it's negative
+            int src = 0; 
         
-        //     vector<int> cost(g.get_number_nodes(), INT_MAX); 
+            vector<int> cost(g.get_number_nodes(), INT_MAX); 
         
-        //     vector<int> parent(g.get_number_nodes(), -1); 
+            vector<int> parent(g.get_number_nodes(), -1); 
         
-        //     vector<bool> inMST(g.get_number_nodes(), false); 
+            vector<bool> inMST(g.get_number_nodes(), false); 
 
-        //     //this is pushing the weight-node pairs, i don't want to figure out doing it with point objects because this is just easier (i think)
-        //     minheap.push(make_pair(0, src)); 
-        //     cost[src] = 0; 
+            //this is pushing the weight-node pairs, i don't want to figure out doing it with point objects because this is just easier (i think)
+            minheap.push(make_pair(0, src)); 
+            cost[src] = 0; 
         
-        //     while (!minheap.empty()) 
-        //     { 
-        //         int u = minheap.top().second; 
-        //         minheap.pop(); 
+            while (!minheap.empty()) 
+            { 
+                int u = minheap.top().second; 
+                minheap.pop(); 
         
-        //         inMST[u] = true; 
+                inMST[u] = true; 
         
-        //         for (auto i = adjlis -> at(u).begin(); i != adjlis -> at(u).end(); i++) 
-        //         { 
-        //             int v = i -> getNode().getNum(); 
-        //             int weight = i -> getWeight(); 
+                for (auto i = adjlis -> at(u).begin(); i != adjlis -> at(u).end(); i++) 
+                { 
+                    int v = i -> getNode().getNum(); 
+                    int weight = i -> getWeight(); 
         
-        //             if (inMST[v] == false && cost[v] > weight) 
-        //             { 
-        //                 cost[v] = weight; 
-        //                 minheap.push(make_pair(cost[v], v)); 
-        //                 parent[v] = u; 
-        //             } 
-        //         } 
-        //     }
+                    if (inMST[v] == false && cost[v] > weight) 
+                    { 
+                        cost[v] = weight; 
+                        minheap.push(make_pair(cost[v], v)); 
+                        parent[v] = u; 
+                    } 
+                } 
+            }
 
-        //     // for (int i = 1; i < g.get_number_nodes(); ++i) // I think num_nodes = # vertices = # nodes, double check though
-        //     //     printf("%d - %d\n", parent[i], i);
+            // for (int i = 1; i < g.get_number_nodes(); ++i) // I think num_nodes = # vertices = # nodes, double check though
+            //     printf("%d - %d\n", parent[i], i);
 
-        //     // check if I did this right
-        //     ofstream ofs;
-        //     ofs.open("./results/prim.txt", ofstream::out | ofstream::trunc); // clears text file
-        //     ofs.close();
-        //     ofstream myfile;
-        //     myfile.open ("./results/prim.txt");
-        //     for (int i = 0; i < g.get_number_nodes(); i++) {
-        //         myfile << parent[i] << " " << i << endl;
-        //     }
-        //     myfile.close();
-        // } 
+            // check if I did this right
+            ofstream ofs;
+            ofs.open("./results/prim.txt", ofstream::out | ofstream::trunc); // clears text file
+            ofs.close();
+            ofstream myfile;
+            myfile.open ("./results/prim.txt");
+            for (int i = 0; i < g.get_number_nodes(); i++) {
+                myfile << parent[i] << " " << i << endl;
+            }
+            myfile.close();
+        } 
 
         bool isCyclicUtil(int v, bool visited[], bool *rStack) { 
             if (visited[v] == false) { 
@@ -269,7 +268,16 @@ class analyser {
                         topologicalSortUtil(i, visited, Stack); 
 
                 while (Stack.empty() == false) { 
-                    cout << Stack.top() << " "; 
+                    // cout << Stack.top() << " "
+                    ofstream ofs;
+                    ofs.open("./results/topological_sort.txt", ofstream::out | ofstream::trunc); // clears text file
+                    ofs.close();
+                    ofstream myfile;
+                    myfile.open ("./results/topological_sort.txt");
+                    for (int i = 0; i < num_nodes; i++) {
+                        myfile << Stack.top() << endl;
+                    }
+                    myfile.close();
                     Stack.pop(); 
                 } 
             } else {
@@ -319,11 +327,27 @@ class analyser {
             vector<vector<int>> res_lis;
             int num_nodes = a.get_number_nodes();
             for(int i; i < num_nodes; i++) {
-                vector<int> row;
-                res_lis.push_back(row);
-                for(auto j = a.get_lis() -> at(i).begin(); j != a.get_lis() -> at(i).end(); ++j) {
-                    res_lis[i].push_back(lis -> at(i).at(j -> getWeight()));
+                int jj = 0;
+                vector<int> res_lis2;
+                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); ++j) {
+                    if(jj < j -> getNode().getNum()) {
+                        res_lis2.push_back(0);
+                    } else
+                    // r_lis[i][j -> getNode().getNum()] = j -> getWeight;
+                    if(jj == j -> getNode().getNum()) {
+                        res_lis2.push_back(j -> getWeight());
+                    } else {
+                        cerr << "something went wrong with ford fulkerson" << endl;
+                        break;
+                    }
+                    ++jj;
                 }
+                if(res_lis2.empty()) {
+                    for(int i = 0; i < num_nodes; i++) {
+                        res_lis2.push_back(0);
+                    }
+                }
+                res_lis.push_back(res_lis2);
             }
  
             vector<int> parent;
@@ -387,28 +411,19 @@ class analyser {
 
         void bfs(graph a, node s) {
             int num_nodes = a.get_number_nodes();
-            //make helper array that keeps tracks of which nodes have been visited, sets it all to false before starting
             bool *visited = new bool[num_nodes];
             for(int i = 0; i < num_nodes; i++) {
                 visited[i] = false;
             }
-            //creates a queue for the BFS, list data stucture makes sense https://embeddedartistry.com/blog/2017/09/11/choosing-the-right-container-sequential-containers/
             list<node> queue;
-            //add node that was passed to list of visited and then queue it up
             visited[s.getNum()] = true;
             queue.push_back(s);
             vector<vector<point>>* lis = a.get_lis();
 
             while(!queue.empty()) {
-
-                //pop vertex from the front and print it
                 s = queue.front();
                 cout << s.getNum() << ", ";
                 queue.pop_front();
-
-                // Get all adjacent vertices of the dequeued-
-                // // vertex s. If a adjacent has not been visited,--
-                // // then mark it visited and enqueue it
                 for (auto i = lis -> at(s.getNum()).begin(); i != lis -> at(s.getNum()).end(); i++) {
                     if(!visited[i -> getNode().getNum()]) {
                         visited[i -> getNode().getNum()] = true;
@@ -462,63 +477,64 @@ class analyser {
             myfile.close();
         }
 
-    //STILL NEEDS TESTING AND FORMATTING AND JUST ABOUT EVERYTHING ELSE
-        // void primMST(graph g) {
-        //     //okay so I don't know how to make this without pairs because i have no clue how PQs in the
-        //     //STL treats putting objects in heaps, with pairs you can order by weight (cost) and heap
-        //     //recognizes the first element of the pair as the thing to prioritize
-        //     priority_queue< pi, vector <pi> , greater<pi> > minheap; 
+    // STILL NEEDS TESTING AND FORMATTING AND JUST ABOUT EVERYTHING ELSE
+        void primMST() {
+            graph g = a;
+            //okay so I don't know how to make this without pairs because i have no clue how PQs in the
+            //STL treats putting objects in heaps, with pairs you can order by weight (cost) and heap
+            //recognizes the first element of the pair as the thing to prioritize
+            priority_queue< pi, vector <pi> , greater<pi> > minheap; 
 
-        //     vector<vector<point>>* adjlis = g.get_lis();
+            vector<vector<point>>* adjlis = g.get_lis();
 
-        //     //this is just the starting point, pretty sure it gets more stupid if it's negative
-        //     int src = 0; 
+            //this is just the starting point, pretty sure it gets more stupid if it's negative
+            int src = 0; 
         
-        //     vector<int> cost(g.get_number_nodes(), INT_MAX); 
+            vector<int> cost(g.get_number_nodes(), INT_MAX); 
         
-        //     vector<int> parent(g.get_number_nodes(), -1); 
+            vector<int> parent(g.get_number_nodes(), -1); 
         
-        //     vector<bool> inMST(g.get_number_nodes(), false); 
+            vector<bool> inMST(g.get_number_nodes(), false); 
 
-        //     //this is pushing the weight-node pairs, i don't want to figure out doing it with point objects because this is just easier (i think)
-        //     minheap.push(make_pair(0, src)); 
-        //     cost[src] = 0; 
+            //this is pushing the weight-node pairs, i don't want to figure out doing it with point objects because this is just easier (i think)
+            minheap.push(make_pair(0, src)); 
+            cost[src] = 0; 
         
-        //     while (!minheap.empty()) 
-        //     { 
-        //         int u = minheap.top().second; 
-        //         minheap.pop(); 
+            while (!minheap.empty()) 
+            { 
+                int u = minheap.top().second; 
+                minheap.pop(); 
         
-        //         inMST[u] = true; 
+                inMST[u] = true; 
         
-        //         for (auto i = adjlis -> at(u).begin(); i != adjlis -> at(u).end(); i++) 
-        //         { 
-        //             int v = i -> getNode().getNum(); 
-        //             int weight = i -> getWeight(); 
+                for (auto i = adjlis -> at(u).begin(); i != adjlis -> at(u).end(); i++) 
+                { 
+                    int v = i -> getNode().getNum(); 
+                    int weight = i -> getWeight(); 
         
-        //             if (inMST[v] == false && cost[v] > weight) 
-        //             { 
-        //                 cost[v] = weight; 
-        //                 minheap.push(make_pair(cost[v], v)); 
-        //                 parent[v] = u; 
-        //             } 
-        //         } 
-        //     }
+                    if (inMST[v] == false && cost[v] > weight) 
+                    { 
+                        cost[v] = weight; 
+                        minheap.push(make_pair(cost[v], v)); 
+                        parent[v] = u; 
+                    } 
+                } 
+            }
 
-        //     // for (int i = 1; i < g.get_number_nodes(); ++i) // I think num_nodes = # vertices = # nodes, double check though
-        //     //     printf("%d - %d\n", parent[i], i);
+            // for (int i = 1; i < g.get_number_nodes(); ++i) // I think num_nodes = # vertices = # nodes, double check though
+            //     printf("%d - %d\n", parent[i], i);
 
-        //     // check if I did this right
-        //     ofstream ofs;
-        //     ofs.open("./results/prim.txt", ofstream::out | ofstream::trunc); // clears text file
-        //     ofs.close();
-        //     ofstream myfile;
-        //     myfile.open ("./results/prim.txt");
-        //     for (int i = 0; i < g.get_number_nodes(); i++) {
-        //         myfile << parent[i] << " " << i << endl;
-        //     }
-        //     myfile.close();
-        // } 
+            // check if I did this right
+            ofstream ofs;
+            ofs.open("./results/prim.txt", ofstream::out | ofstream::trunc); // clears text file
+            ofs.close();
+            ofstream myfile;
+            myfile.open ("./results/prim.txt");
+            for (int i = 0; i < g.get_number_nodes(); i++) {
+                myfile << parent[i] << " " << i << endl;
+            }
+            myfile.close();
+        } 
 
         bool isCyclicUtil(graph a, int v, bool visited[], bool *rStack) { 
             if (visited[v] == false) { 
@@ -606,7 +622,16 @@ class analyser {
                         topologicalSortUtil(a, i, visited, Stack); 
 
                 while (Stack.empty() == false) { 
-                    cout << Stack.top() << " "; 
+                    // cout << Stack.top() << " "; 
+                    ofstream ofs;
+                    ofs.open("./results/topological_sort.txt", ofstream::out | ofstream::trunc); // clears text file
+                    ofs.close();
+                    ofstream myfile;
+                    myfile.open ("./results/topological_sort.txt");
+                    for (int i = 0; i < num_nodes; i++) {
+                        myfile << Stack.top() << endl;
+                    }
+                    myfile.close();
                     Stack.pop(); 
                 } 
             } else {
@@ -686,14 +711,31 @@ class analyser {
             int maxflow = 0;
             vector<vector<point>>* lis = a.get_lis();
 
-            vector<vector<int>> res_lis;
             int num_nodes = a.get_number_nodes();
+            int r_lis[num_nodes][num_nodes] = {0};
+            vector<vector<int>> res_lis;
             for(int i; i < num_nodes; i++) {
-                vector<int> row;
-                res_lis.push_back(row);
-                for(auto j = a.get_lis() -> at(i).begin(); j != a.get_lis() -> at(i).end(); ++j) {
-                    res_lis[i].push_back(lis -> at(i).at(j -> getWeight()));
+                int jj = 0;
+                vector<int> res_lis2;
+                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); ++j) {
+                    if(jj < j -> getNode().getNum()) {
+                        res_lis2.push_back(0);
+                    } else
+                    // r_lis[i][j -> getNode().getNum()] = j -> getWeight;
+                    if(jj == j -> getNode().getNum()) {
+                        res_lis2.push_back(j -> getWeight());
+                    } else {
+                        cerr << "something went wrong with ford fulkerson" << endl;
+                        break;
+                    }
+                    ++jj;
                 }
+                if(res_lis2.empty()) {
+                    for(int i = 0; i < num_nodes; i++) {
+                        res_lis2.push_back(0);
+                    }
+                }
+                res_lis.push_back(res_lis2);
             }
  
             vector<int> parent;
