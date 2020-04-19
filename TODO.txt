@@ -6,4 +6,3 @@ FIX:
 -Prim's
 -cyclic
 -ford fulkerson (verify it works)
--topological sort (verify it works)
