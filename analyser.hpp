@@ -52,32 +52,38 @@ class analyser {
             return findOutDegree(x);
         }
 
-        void bfs(node s) {
+        void bfs(int s) {
             // helper array that keeps tracks of which nodes have been visited
             bool *visited = new bool[num_nodes];
             for(int i = 0; i < num_nodes; i++) {
                 visited[i] = false;
             }
             
-            list<node> queue;
+            list<int> queue;
 
             //add node that was passed to list of visited and then queue it up
-            visited[s.getNum()] = true;
+            visited[s] = true;
             queue.push_back(s);
             vector<vector<point>>* lis = a.get_lis();
-
+            ofstream ofs;
+            ofs.open("./results/bfs.txt", ofstream::out | ofstream::trunc); // clears text file
+            ofs.close();
             while(!queue.empty()) {
 
                 //pop vertex from the front and print it
-                s = queue.front();
-                cout << s.getNum() << ", ";
+                int ss = queue.front();
+                // cout << s.getNum() << ", ";
+                ofstream myfile;
+                myfile.open ("./results/bfs.txt", std::ios_base::app);
+                myfile << ss << endl;
+                myfile.close();
                 queue.pop_front();
 
                 // Get all adjacent vertices of the dequeud vertex s. If a adjacent has not been visited, then mark it visited and enqueue it
-                for (auto i = lis -> at(s.getNum()).begin(); i != lis -> at(s.getNum()).end(); i++) {
+                for (auto i = lis -> at(ss).begin(); i != lis -> at(ss).end(); i++) {
                     if(!visited[i -> getNode().getNum()]) {
                         visited[i -> getNode().getNum()] = true;
-                        queue.push_back(i -> getNode());
+                        queue.push_back(i -> getNode().getNum());
                     }
                 }
             }
@@ -414,25 +420,39 @@ class analyser {
             return findOutDegree(a, x);
         }
 
-        void bfs(graph a, node s) {
+        void bfs(graph a, int s) {
             int num_nodes = a.get_number_nodes();
             bool *visited = new bool[num_nodes];
             for(int i = 0; i < num_nodes; i++) {
                 visited[i] = false;
             }
-            list<node> queue;
-            visited[s.getNum()] = true;
+            
+            list<int> queue;
+
+            //add node that was passed to list of visited and then queue it up
+            visited[s] = true;
             queue.push_back(s);
             vector<vector<point>>* lis = a.get_lis();
+            ofstream ofs;
+            ofs.open("./results/bfs.txt", ofstream::out | ofstream::trunc); // clears text file
+            ofs.close();
 
             while(!queue.empty()) {
-                s = queue.front();
-                cout << s.getNum() << ", ";
+
+                //pop vertex from the front and print it
+                int ss = queue.front();
+                // cout << ss << ", ";
+                ofstream myfile;
+                myfile.open ("./results/bfs.txt", std::ios_base::app);
+                myfile << ss << endl;
+                myfile.close();
                 queue.pop_front();
-                for (auto i = lis -> at(s.getNum()).begin(); i != lis -> at(s.getNum()).end(); i++) {
+
+                // Get all adjacent vertices of the dequeud vertex s. If a adjacent has not been visited, then mark it visited and enqueue it
+                for (auto i = lis -> at(ss).begin(); i != lis -> at(ss).end(); i++) {
                     if(!visited[i -> getNode().getNum()]) {
                         visited[i -> getNode().getNum()] = true;
-                        queue.push_back(i -> getNode());
+                        queue.push_back(i -> getNode().getNum());
                     }
                 }
             }

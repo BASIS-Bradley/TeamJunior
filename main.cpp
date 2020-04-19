@@ -100,6 +100,30 @@ void test_clustering() {
     cout << Eigen::MatrixXd(s) << endl;
 }
 
+void test_bfs() {
+    graph g = graph(false, false, 4);
+    g.addEdge(0, 1); 
+    g.addEdge(0, 2); 
+    g.addEdge(1, 2); 
+    g.addEdge(2, 0); 
+    g.addEdge(2, 3); 
+    g.addEdge(3, 3); 
+    analyser ana = analyser();
+    ana.bfs(g, 2);
+}
+
+void test_prims() {
+
+}
+
+void test_topologicalSort() {
+
+}
+
+void test_fordFulkerson() {
+
+}
+
 void runtime_testing() {
     // GRAPH LOADING
     // change as needed
@@ -158,7 +182,7 @@ void runtime_testing() {
 
     if(bfs) {
         // Parameters for bfs
-        int node = 2;
+        int node = 123;
 
         auto e_StartTime = std::chrono::system_clock::now();
         ana.bfs(g, node);
@@ -228,5 +252,6 @@ void runtime_testing() {
 }
 
 int main() {
-    runtime_testing();
+    // runtime_testing();
+    test_bfs();
 }
