@@ -8,14 +8,14 @@ In order to run the Markov Clustering algorithm the Eigen 3 Library, in which ve
 
 ## Data
 
-All the data we used were various types of graphs such as directed and weighted, undirected and unweighted, etc. We imported all our data from [SNAP Database](https://snap.stanford.edu/data/).
+All the data we used were various types of graphs such as directed and weighted, undirected and unweighted, etc. We imported all our data from [SNAP Database](https://snap.stanford.edu/data/). The methods that we have written interepret interesting properties of graphs such as being cyclic or not, clustering using multiple methods, indegree and outdegree, and max flow. 
 
 ## Code
 
 Our code is made up of various hpp files:
 
 #### [edge.hpp](https://github.com/BASIS-Bradley/TeamJunior/blob/master/edge.hpp)
-  * //Shariq add the functionality//
+  * Makes a single edge object that contains source, destination, and weight info with a comparator that allows for minheaps based on edge weight to be created in analyser methods
 
 #### [node.hpp](https://github.com/BASIS-Bradley/TeamJunior/blob/master/node.hpp)
   * Most basic object for each point in the graph containing the number of the node
@@ -41,4 +41,4 @@ Create an executable of our [main.hpp file](https://github.com/BASIS-Bradley/Tea
 
 ## Authors
 
-Areeb, Shariq, Sreevatsa, Joshua, Ritvik
+Shariq, Sreevatsa, Joshua
