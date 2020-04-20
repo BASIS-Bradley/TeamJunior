@@ -1,8 +1,5 @@
 We still do not have a clustering algo that uses distances from dijkstra as a heuristic
-Fix up readme
 kruskal maybe
 
 FIX:
--Prim's
 -cyclic(works for directed but not unirected)
--ford fulkerson (verify it works)
