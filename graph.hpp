@@ -86,12 +86,43 @@ class graph {
             for(auto i = lis-> begin(); i != lis -> end(); i++) {
                 for(auto j = i -> begin(); j != i -> end(); j++) {
                     v.push_back(edge(src, j -> getNode().getNum(), j -> getWeight()));
-            }
+                }
                 src++;
-        }
+            }
             return v;
         }
 
+        vector<vector<point>>* get_list() {
+            vector<vector<point>>* listtt = new vector<vector<point>>();
+            for(auto i = lis-> begin(); i != lis -> end(); i++) {
+                // int jj = 0;
+                vector<point> listt;
+                // for(auto j = i -> begin(); j != i -> end(); j++) {
+                //     if(jj < j -> getNode().getNum()) {
+                //         listt.push_back(point(jj, 0));
+                //     } else {
+                //         listt.push_back(*j);
+                //     }
+                //     jj++;
+                // }
+                auto j = i -> begin();
+                for(int jj = 0; jj < get_number_nodes(); jj++) {
+                    if(j != i -> end()) {
+                        if(jj < j -> getNode().getNum()) {
+                            listt.push_back(point(jj,0));
+                        } else {
+                            listt.push_back(*j);
+                            j++;
+                        }
+                    } else {
+                        listt.push_back(point(jj,0));
+                    }
+                }
+                // cerr << jj << endl;
+                listtt -> push_back(listt);
+            }
+            return listtt;
+        }
 
         void print_graph() {
             if(num_nodes == 0) {

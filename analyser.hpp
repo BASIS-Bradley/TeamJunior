@@ -210,10 +210,10 @@ class analyser {
             while(pq.size() > 0) {
                 edge current = pq.top();
                 pq.pop();
-                if (!g.get_lis() -> at(current.getSource()).at(current.getDest()).getVisited()) {
+                if (!g.get_list() -> at(current.getSource()).at(current.getDest()).getVisited()) {
                     mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight()));
-                    g.get_lis() -> at(current.getSource()).at(current.getDest()).makeVisited();
-                    g.get_lis() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
+                    g.get_list() -> at(current.getSource()).at(current.getDest()).makeVisited();
+                    g.get_list() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
                     }
                 else {
                 clustum++;
@@ -238,18 +238,21 @@ class analyser {
             int clustum = 1;
             vector<edge> mst;
             // something = g.get_ls
-            vector<vector<point>>* lis = g.get_lis();
+            // vector<vector<point>>* lis = g.get_lis();
             
             while(pq.size() > 0) {
                 edge current = pq.top();
                 // cout << current.getSource() << "-" << current.getDest() << "\t" << current.getWeight() << endl;
                 pq.pop();
-                if (!g.get_lis() -> at(current.getSource()).at(current.getDest()).getVisited()) {
+                // cerr << g.get_list() -> at(0).size() << endl;
+                if (!g.get_list() -> at(current.getSource()).at(current.getDest()).getVisited()) {
+                    // cerr << "kmao" << endl;
                     mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight()));
-                    g.get_lis() -> at(current.getSource()).at(current.getDest()).makeVisited();
-                    g.get_lis() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
-                    }
+                    g.get_list() -> at(current.getSource()).at(current.getDest()).makeVisited();
+                    g.get_list() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
+                }
                 else {
+                    // cerr << "adadf" << endl;
                     clustum++;
                     if(clustum > k)
                         clustum = 1;
@@ -259,6 +262,7 @@ class analyser {
             ofstream myfile;
             myfile.open ("./results/kruskal.txt");
             for (auto matic = mst.begin(); matic != mst.end(); matic++) {
+                // cout << matic -> getSource();
                 myfile << matic -> getSource() << "-" << matic -> getDest() << "\t" << matic -> getWeight() << endl;
             }
             myfile.close();
@@ -281,10 +285,10 @@ class analyser {
             while(pq.size() > 0) {
                 edge current = pq.top();
                 pq.pop();
-                if (!a.get_lis() -> at(current.getSource()).at(current.getDest()).getVisited()) {
+                if (!a.get_list() -> at(current.getSource()).at(current.getDest()).getVisited()) {
                     mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight()));
-                    a.get_lis() -> at(current.getSource()).at(current.getDest()).makeVisited();
-                    a.get_lis() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
+                    a.get_list() -> at(current.getSource()).at(current.getDest()).makeVisited();
+                    a.get_list() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
                     }
                 else {
                 clustum++;
@@ -312,10 +316,10 @@ class analyser {
             while(pq.size() > 0) {
                 edge current = pq.top();
                 pq.pop();
-                if (!a.get_lis() -> at(current.getSource()).at(current.getDest()).getVisited()) {
+                if (!a.get_list() -> at(current.getSource()).at(current.getDest()).getVisited()) {
                     mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight()));
-                    a.get_lis() -> at(current.getSource()).at(current.getDest()).makeVisited();
-                    a.get_lis() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
+                    a.get_list() -> at(current.getSource()).at(current.getDest()).makeVisited();
+                    a.get_list() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
                     }
                 else {
                 clustum++;
