@@ -286,7 +286,7 @@ class analyser {
                     visited[i] = false;
                 for(int i = 0; i < num_nodes; i++) {
                     if (!visited[i] && isCyclicUtil(i, visited, -1)) {
-                            return true;
+                        return true;
                     }
                 }
 
@@ -328,7 +328,7 @@ class analyser {
 
                 while (Stack.empty() == false) { 
                     // cout << Stack.top() << " "
-                    myfile << Stack.top() << endl;
+                    myfile << Stack.top() << " ";
                     Stack.pop(); 
                 } 
                 myfile.close();
@@ -354,19 +354,29 @@ class analyser {
                     dist[i] = INF; 
                 dist[s] = 0; 
 
+                ofstream ofs;
+                ofs.open("./results/shortest_path_directed_acyclic_graph.txt", ofstream::out | ofstream::trunc); // clears text file
+                ofs.close();
+
                 while (Stack.empty() == false) { 
                     int u = Stack.top(); 
                     Stack.pop(); 
 
                     if (dist[u] != INF) { 
-                    for (auto i = a.get_lis2() -> at(u).begin(); i != a.get_lis2() -> at(u).end(); ++i) 
-                        if (dist[i -> getNode().getNum()] > dist[u] + i -> getWeight()) 
-                            dist[i -> getNode().getNum()] = dist[u] + i -> getWeight(); 
+                        for (auto i = a.get_lis() -> at(u).begin(); i != a.get_lis() -> at(u).end(); ++i) {
+                            if (dist[i -> getNode().getNum()] > dist[u] + i -> getWeight()) 
+                                dist[i -> getNode().getNum()] = dist[u] + i -> getWeight(); 
+                        }
                     } 
                 } 
+
+                ofstream myfile;
+                myfile.open ("./results/shortest_path_directed_acyclic_graph.txt");
             
-                for (int i = 0; i < num_nodes; i++) 
-                    (dist[i] == INF)? cout << "INF ": cout << dist[i] << " "; 
+                for (int i = 0; i < num_nodes; i++) {
+                    (dist[i] == INF)? myfile << "INF ": myfile << dist[i] << " "; 
+                }
+                myfile.close();
             } else {
                 cout << "Graph is not a directed acyclic graph" << endl;
             }
@@ -690,6 +700,10 @@ class analyser {
                 bool *visited = new bool[num_nodes]; 
                 for (int i = 0; i < num_nodes; i++) 
                     visited[i] = false; 
+                
+                ofstream ofs;
+                ofs.open("./results/topological_sort.txt", ofstream::out | ofstream::trunc); // clears text file
+                ofs.close();
 
                 for (int i = 0; i < num_nodes; i++) 
                     if (!visited[i]) 
@@ -700,8 +714,8 @@ class analyser {
 
 
                 while (Stack.empty() == false) { 
-                    // cout << Stack.top() << " "
-                    myfile << Stack.top() << endl;
+                    // cout << Stack.top() << " ";
+                    myfile << Stack.top() << " ";
                     Stack.pop(); 
                 } 
                 myfile.close();
@@ -728,19 +742,28 @@ class analyser {
                     dist[i] = INF; 
                 dist[s] = 0; 
 
+                ofstream ofs;
+                ofs.open("./results/shortest_path_directed_acyclic_graph.txt", ofstream::out | ofstream::trunc); // clears text file
+                ofs.close();
+
                 while (Stack.empty() == false) { 
                     int u = Stack.top(); 
                     Stack.pop(); 
 
                     if (dist[u] != INF) { 
-                    for (auto i = b.get_lis2() -> at(u).begin(); i != b.get_lis2() -> at(u).end(); ++i) 
-                        if (dist[i -> getNode().getNum()] > dist[u] + i -> getWeight()) 
-                            dist[i -> getNode().getNum()] = dist[u] + i -> getWeight(); 
+                        for (auto i = b.get_lis() -> at(u).begin(); i != b.get_lis() -> at(u).end(); ++i) 
+                            if (dist[i -> getNode().getNum()] > dist[u] + i -> getWeight()) 
+                                dist[i -> getNode().getNum()] = dist[u] + i -> getWeight(); 
                     } 
                 } 
+
+                ofstream myfile;
+                myfile.open ("./results/shortest_path_directed_acyclic_graph.txt");
             
-                for (int i = 0; i < num_nodes; i++) 
-                    (dist[i] == INF)? cout << "INF ": cout << dist[i] << " ";
+                for (int i = 0; i < num_nodes; i++) {
+                    (dist[i] == INF)? myfile << "INF ": myfile << dist[i] << " "; 
+                }
+                myfile.close();
             } else {
                 cout << "Graph is not a directed acyclic graph" << endl;
             }
@@ -778,7 +801,7 @@ class analyser {
             return false;
         }  
 
-        int FordFulkerson(graph b, int &source, int &sink) {
+        int FordFulkerson(graph b, int source, int sink) {
             int maxflow = 0;
             vector<vector<point>>* lis = b.get_lis();
 
@@ -787,33 +810,21 @@ class analyser {
             // cerr << "break" << endl;
             vector<vector<int>> res_lis;
             for(int i; i < num_nodes; i++) {
-                // int jj = 0;
                 vector<int> res_lis2;
-                int r_lis[num_nodes] = {0};
-                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); j++) {
-                    // if(jj < j -> getNode().getNum()) {
-                    //     res_lis2.push_back(0);
-                    // } else
-                    // // r_lis[i][j -> getNode().getNum()] = j -> getWeight;
-                    // if(jj == j -> getNode().getNum()) {
-                    //     res_lis2.push_back(j -> getWeight());
-                    // } else {
-                    //     cerr << "something went wrong with ford fulkerson" << endl;
-                    //     break;
-                    // }
-                    // ++jj;
-                    r_lis[j -> getNode().getNum()] = j -> getWeight();
-                }
-                // if(res_lis2.empty()) {
-                //     for(int i = 0; i < num_nodes; i++) {
-                //         res_lis2.push_back(0);
-                //     }
-                // }
                 for(int eger = 0; eger < num_nodes; eger++) {
-                    res_lis2.push_back(r_lis[eger]);
+                    res_lis2.push_back(0);
+                }
+                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); j++) {
+                    res_lis2.push_back(j -> getWeight());
                 }
                 res_lis.push_back(res_lis2);
             }
+            for (int i = 0; i < res_lis.size(); i++) {
+                for (int j = 0; j < res_lis.at(i).size(); j++) {
+                    cout << res_lis[i][j] << " ";
+                }
+                cout << endl;
+            }   
  
             vector<int> parent;
             for(int i = 0; i < num_nodes; i++) 
