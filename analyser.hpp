@@ -186,54 +186,54 @@ class analyser {
             ofstream myfile;
             myfile.open ("./results/prim.txt");
             for (int i = 0; i < g.get_number_nodes(); i++) {
-                myfile << parent[i] << " " << i << endl;
+                myfile << parent[i] << "-" << i << "  " << cost[i] << endl;
             }
             myfile.close();
         } 
 
-        void primMST2(graph g) {
-            int num_nodes = g.get_number_nodes();
-            int parent[num_nodes];  
-            int keys[num_nodes];  
-            bool mstSet[num_nodes];  
+        // void primMST2(graph g) {
+        //     int num_nodes = g.get_number_nodes();
+        //     int parent[num_nodes];  
+        //     int keys[num_nodes];  
+        //     bool mstSet[num_nodes];  
         
-            // Initialize all keys as INFINITE  
-            for (int i = 0; i < num_nodes; i++) {
-                keys[i] = INT_MAX, mstSet[i] = false;  
-            }
-            // Always include first 1st vertex in MST.  
-            // Make key 0 so that this vertex is picked as first vertex.  
-            keys[0] = 0;  
-            parent[0] = -1; // First node is always root of MST  
+        //     // Initialize all keys as INFINITE  
+        //     for (int i = 0; i < num_nodes; i++) {
+        //         keys[i] = INT_MAX, mstSet[i] = false;  
+        //     }
+        //     // Always include first 1st vertex in MST.  
+        //     // Make key 0 so that this vertex is picked as first vertex.  
+        //     keys[0] = 0;  
+        //     parent[0] = -1; // First node is always root of MST  
         
-            // The MST will have V vertices  
-            for (int count = 0; count < num_nodes - 1; count++) {  
-                // Pick the minimum key vertex from the  
-                // set of vertices not yet included in MST  
-                int min = INT_MAX, min_index;  
+        //     // The MST will have V vertices  
+        //     for (int count = 0; count < num_nodes - 1; count++) {  
+        //         // Pick the minimum key vertex from the  
+        //         // set of vertices not yet included in MST  
+        //         int min = INT_MAX, min_index;  
   
-                for (int v = 0; v < V; v++)  
-                if (mstSet[v] == false && key[v] < min)  
-                    min = key[v], min_index = v;  
+        //         for (int v = 0; v < num_nodes; v++)  
+        //         if (mstSet[v] == false && keys[v] < min)  
+        //             min = keys[v], min_index = v;  
   
-                int u = minKey(key, mstSet);  
+        //         int u = min_index;  
         
-                // Add the picked vertex to the MST Set  
-                mstSet[u] = true;  
+        //         // Add the picked vertex to the MST Set  
+        //         mstSet[u] = true;  
         
-                // Update key value and parent index of  
-                // the adjacent vertices of the picked vertex.  
-                // Consider only those vertices which are not  
-                // yet included in MST  
-                for (int v = 0; v < V; v++)  
+        //         // Update key value and parent index of  
+        //         // the adjacent vertices of the picked vertex.  
+        //         // Consider only those vertices which are not  
+        //         // yet included in MST  
+        //         for (int eger = 0; eger < num_nodes; eger++)  
         
-                    // graph[u][v] is non zero only for adjacent vertices of m  
-                    // mstSet[v] is false for vertices not yet included in MST  
-                    // Update the key only if graph[u][v] is smaller than key[v]  
-                    if (graph[u][v] && mstSet[v] == false && graph[u][v] < key[v])  
-                        parent[v] = u, key[v] = graph[u][v];  
-            }  
-        }
+        //             // graph[u][v] is non zero only for adjacent vertices of m  
+        //             // mstSet[v] is false for vertices not yet included in MST  
+        //             // Update the key only if graph[u][v] is smaller than key[v]  
+        //             if (g.get_lis() -> at(u).at(eger).getNode().getNum() != 0 && mstSet[eger] == false && g.get_lis() -> at(u).at(eger).getNode().getNum() < keys[eger])  
+        //                 parent[eger] = u, keys[eger] = g.get_lis() -> at(u).at(eger).getNode().getNum();  
+        //     }  
+        // }
 
         bool isCyclicUtil(int v, bool visited[], bool *rStack) { 
             if (visited[v] == false) { 

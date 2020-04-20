@@ -148,7 +148,24 @@ void test_cyclic() {
 }
 
 void test_prims() {
+    graph g = graph(true, true, 5);
+    g.addEdge(0, 1, 2);
+    g.addEdge(0, 3, 6);
+    g.addEdge(1, 0, 2);
+    g.addEdge(1, 2, 3);
+    g.addEdge(1, 3, 8);
+    g.addEdge(1, 4, 5);
+    g.addEdge(2, 1, 3);
+    g.addEdge(2, 4, 7);
+    g.addEdge(3, 0, 6);
+    g.addEdge(3, 1, 8);
+    g.addEdge(3, 4, 9);
+    g.addEdge(4, 1, 5);
+    g.addEdge(4, 2, 7);
+    g.addEdge(4, 3, 9);
 
+    analyser ana = analyser();
+    ana.primMST(g);
 }
 
 void test_shortestPathDAG() {
@@ -219,11 +236,11 @@ void runtime_testing() {
     // g.print_graph();
 
     // CHOOSE WHICH TESTS TO RUN
-    bool degree = true;
-    bool dijkstra = true;
-    bool bfs = true; // bfs is broken
+    bool degree = false;
+    bool dijkstra = false;
+    bool bfs = false; // bfs is broken
     bool cyclic = false; // is this broken
-    bool prims = false; // change this once implemented
+    bool prims = true; // change this once implemented
     bool mclb = false; //mcl
     bool ford_fulkerson = false;
     bool topological_sort = false;
@@ -343,11 +360,12 @@ void runtime_testing() {
 }
 
 int main() {
-    runtime_testing();
+    // runtime_testing();
     // test_cyclic();
     // test_bfs();
     // test_topologicalSort();
     // test_shortestPathDAG();
     // test_cyclic();
-    test_fordFulkerson();
+    // test_fordFulkerson();
+    test_prims();
 }
