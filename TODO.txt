@@ -4,5 +4,5 @@ kruskal maybe
 
 FIX:
 -Prim's
--cyclic
+-cyclic(works for directed but not unirected)
 -ford fulkerson (verify it works)
