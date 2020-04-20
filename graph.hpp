@@ -2,6 +2,7 @@
 #define GRAPH_HPP_
 
 #include <queue>
+#include "edge.hpp"
 #include "point.hpp"
 
 using namespace std;
@@ -78,6 +79,19 @@ class graph {
                 }
             }
         }
+
+        vector<edge> getEdges(){
+            int src = 0;
+            vector<edge> v;
+            for(auto i = lis-> begin(); i != lis -> end(); i++) {
+                for(auto j = i -> begin(); j != i -> end(); j++) {
+                    v.push_back(src, j -> getNode().getNum(), j -> getWeight());
+            }
+                src++;
+        }
+            return v;
+        }
+
 
         void print_graph() {
             if(num_nodes == 0) {

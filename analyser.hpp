@@ -192,6 +192,41 @@ class analyser {
             myfile.close();
         } 
 
+        vector<edge> kruskal(graph g, int k) {
+            vector<edge> edges = getEdges(g);
+            //thank you lambda functions i love you <3
+            auto compare = [](edge left, edge right) { return (left.weight) > (right.weight); };
+            priority_queue<edge, vector<edge>, decltype(compare)> pq(compare);
+
+            for(auto i = edges.begin(); i != edges.end(); i++)
+                pq.push(*i);
+
+            int clustum = 1;
+            vector<edge> mst;
+
+            while(pq.size() > 0) {
+                edge current = pq.top();
+                pq.pop();
+                if (/*the thing in question hasn't been visited*/) {
+                    mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight());
+                    g.lis -> at(current.getSource()).at(current.getDest()).makeVisisted();
+                    g.lis -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
+                    }
+                else {
+                clustum++;
+                if(group > k)
+                    group = 1;
+                    }
+                    }
+                    return mst;
+                    }
+
+
+
+
+        }
+
+
         // void primMST2(graph g) {
         //     int num_nodes = g.get_number_nodes();
         //     int parent[num_nodes];  

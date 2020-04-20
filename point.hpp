@@ -10,14 +10,17 @@ class point {
         point() {
             nod = node();
             weight = 1;
+            visited = false;
         }
         point(int num, int w) {
             nod = node(num);
             weight = w;
+            visited = false;
         }
         point(int num) {
             nod = node(num);
             weight = 1;
+            visited = false;
         }
         void setNode(node n) {
             nod = n;
@@ -31,9 +34,24 @@ class point {
         int getWeight() {
             return weight;
         }
+        bool getVisitied() {
+            return visited;
+        }
+        void makeVisited() {
+            this.visited = true;
+        }
+        int getClusterNum() {
+            return cluster_number;
+        }
+        void setClusterNum(int groupnum) {
+            this.cluster_number = groupnum;
+        }
+
     private:
         node nod;
         int weight;
+        bool visited;
+        int cluster_number;
 };
 
 #endif
