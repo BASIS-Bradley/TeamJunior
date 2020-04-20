@@ -1,16 +1,14 @@
-Josh and Shariq, add stuff wherever I wrote stuff in // // and then delete what is in the // //(delete this line after too)
-
 # Graphs
 
 Throughout this project our team implemented the graph data structure consisting of series of points that share relation to one another, represented by edges. We also implemented many functions utilizing the properties of graphs that explored through this project.
 
 ## Prerequisites
 
-In order to run the Markov Clustering algorithm the Eigen 3 Library, in which version 3.3.7 is the latest stable version. This can be downloaded from [Eigen Main Page](http://eigen.tuxfamily.org/index.php?title=Main_Page). //Josh if you want you can add more about the library itself//This is the only necessary library that must be downloaded in order to run our code.
+In order to run the Markov Clustering algorithm the Eigen 3 Library, in which version 3.3.7 is the latest stable version. This can be downloaded from [Eigen Main Page](http://eigen.tuxfamily.org/index.php?title=Main_Page). This is the only necessary library that must be downloaded in order to run our code.
 
 ## Data
 
-All the data we used were various types of graphs such as directed and weighted, undirected and unweighted, etc. We imported all our data from [SNAP Database](https://snap.stanford.edu/data/). //Shariq add what data we tested, like why it is and what we can get from running oure functions on it//
+All the data we used were various types of graphs such as directed and weighted, undirected and unweighted, etc. We imported all our data from [SNAP Database](https://snap.stanford.edu/data/).
 
 ## Code
 
@@ -43,4 +41,4 @@ Create an executable of our [main.hpp file](https://github.com/BASIS-Bradley/Tea
 
 ## Authors
 
-Shariq, Sreevatsa, Joshua
+Areeb, Shariq, Sreevatsa, Joshua, Ritvik
