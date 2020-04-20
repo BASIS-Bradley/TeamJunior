@@ -113,6 +113,20 @@ void test_bfs() {
     ana.bfs(g, 2);
 }
 
+void test_cyclic() {
+    analyser ana = analyser();
+    graph a = graph(false, false, 3);
+    a.addEdge(0, 1);
+    a.addEdge(0, 2);
+    a.addEdge(1, 2);
+    cout << ana.isCyclic(a) << endl;;
+
+    graph b = graph(false, false, 3);
+    b.addEdge(0,1);
+    b.addEdge(1,2);
+    cout << ana.isCyclic(b) << endl;
+}
+
 void test_prims() {
 
 }
@@ -138,11 +152,11 @@ void runtime_testing() {
     bool degree = true;
     bool dijkstra = true;
     bool bfs = true; // bfs is broken
-    bool cyclic = true; // is this broken
-    bool prims = true; // change this once implemented
+    bool cyclic = false; // is this broken
+    bool prims = false; // change this once implemented
     bool mclb = false; //mcl
-    bool ford_fulkerson = true;
-    bool topological_sort = true;
+    bool ford_fulkerson = false;
+    bool topological_sort = false;
 
     analyser ana = analyser();
 
@@ -260,5 +274,6 @@ void runtime_testing() {
 
 int main() {
     runtime_testing();
+    // test_cyclic();
     // test_bfs();
 }

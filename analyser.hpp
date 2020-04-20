@@ -191,6 +191,50 @@ class analyser {
             myfile.close();
         } 
 
+        void primMST2(graph g) {
+            int num_nodes = g.get_number_nodes();
+            int parent[num_nodes];  
+            int keys[num_nodes];  
+            bool mstSet[num_nodes];  
+        
+            // Initialize all keys as INFINITE  
+            for (int i = 0; i < num_nodes; i++) {
+                keys[i] = INT_MAX, mstSet[i] = false;  
+            }
+            // Always include first 1st vertex in MST.  
+            // Make key 0 so that this vertex is picked as first vertex.  
+            keys[0] = 0;  
+            parent[0] = -1; // First node is always root of MST  
+        
+            // The MST will have V vertices  
+            for (int count = 0; count < num_nodes - 1; count++) {  
+                // Pick the minimum key vertex from the  
+                // set of vertices not yet included in MST  
+                int min = INT_MAX, min_index;  
+  
+                for (int v = 0; v < V; v++)  
+                if (mstSet[v] == false && key[v] < min)  
+                    min = key[v], min_index = v;  
+  
+                int u = minKey(key, mstSet);  
+        
+                // Add the picked vertex to the MST Set  
+                mstSet[u] = true;  
+        
+                // Update key value and parent index of  
+                // the adjacent vertices of the picked vertex.  
+                // Consider only those vertices which are not  
+                // yet included in MST  
+                for (int v = 0; v < V; v++)  
+        
+                    // graph[u][v] is non zero only for adjacent vertices of m  
+                    // mstSet[v] is false for vertices not yet included in MST  
+                    // Update the key only if graph[u][v] is smaller than key[v]  
+                    if (graph[u][v] && mstSet[v] == false && graph[u][v] < key[v])  
+                        parent[v] = u, key[v] = graph[u][v];  
+            }  
+        }
+
         bool isCyclicUtil(int v, bool visited[], bool *rStack) { 
             if (visited[v] == false) { 
                 visited[v] = true; 
@@ -337,7 +381,10 @@ class analyser {
             for(int i; i < num_nodes; i++) {
                 // int jj = 0;
                 vector<int> res_lis2;
-                int r_lis[num_nodes] = {0};
+                // int r_lis[num_nodes] = {0};
+                for(int eger = 0; eger < num_nodes; eger++) {
+                    res_lis2.push_back(0);
+                }
                 for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); j++) {
                     // if(jj < j -> getNode().getNum()) {
                     //     res_lis2.push_back(0);
@@ -350,16 +397,16 @@ class analyser {
                     //     break;
                     // }
                     // ++jj;
-                    r_lis[j -> getNode().getNum()] = j -> getWeight();
+                    res_lis2.at(j -> getNode().getNum()) = j -> getWeight();
                 }
                 // if(res_lis2.empty()) {
                 //     for(int i = 0; i < num_nodes; i++) {
                 //         res_lis2.push_back(0);
                 //     }
                 // }
-                for(int eger = 0; eger < num_nodes; eger++) {
-                    res_lis2.push_back(r_lis[eger]);
-                }
+                // for(int eger = 0; eger < num_nodes; eger++) {
+                //     res_lis2.push_back(r_lis[eger]);
+                // }
                 res_lis.push_back(res_lis2);
             }
  
