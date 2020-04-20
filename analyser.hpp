@@ -6,6 +6,7 @@
 #include <list>
 #include <limits.h>
 #include <fstream>
+#include <algorithm>
 #define INF INT_MAX
 #define INF2 0x3f3f3f3f
 
@@ -386,65 +387,29 @@ class analyser {
             int maxflow = 0;
             vector<vector<point>>* lis = a.get_lis();
 
-            vector<vector<int>> res_lis;
-            int num_nodes = a.get_number_nodes();
-            for(int i; i < num_nodes; i++) {
-                // int jj = 0;
-                vector<int> res_lis2;
-                // int r_lis[num_nodes] = {0};
-                for(int eger = 0; eger < num_nodes; eger++) {
-                    res_lis2.push_back(0);
-                }
-                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); j++) {
-                    // if(jj < j -> getNode().getNum()) {
-                    //     res_lis2.push_back(0);
-                    // } else
-                    // // r_lis[i][j -> getNode().getNum()] = j -> getWeight;
-                    // if(jj == j -> getNode().getNum()) {
-                    //     res_lis2.push_back(j -> getWeight());
-                    // } else {
-                    //     cerr << "something went wrong with ford fulkerson" << endl;
-                    //     break;
-                    // }
-                    // ++jj;
-                    res_lis2.at(j -> getNode().getNum()) = j -> getWeight();
-                }
-                // if(res_lis2.empty()) {
-                //     for(int i = 0; i < num_nodes; i++) {
-                //         res_lis2.push_back(0);
-                //     }
-                // }
-                // for(int eger = 0; eger < num_nodes; eger++) {
-                //     res_lis2.push_back(r_lis[eger]);
-                // }
-                res_lis.push_back(res_lis2);
-            }
- 
-            vector<int> parent;
-            for(int i = 0; i < num_nodes; i++) 
-                parent.push_back(-1);
+            int res_lis[num_nodes][num_nodes];
 
-            while(FordFulkersonUtil(res_lis, source, sink, parent)) {
-                int pathflow = 10000007;
+            for(int i = 0; i < num_nodes; i++) {
+                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); j++) {
+                    res_lis[i][j -> getNode().getNum()] = j -> getWeight();
+                }
+            } 
+ 
+            int parent[num_nodes];
+
+            while(FordFulkersonUtil(num_nodes, *res_lis, source, sink, parent)) {
+                int pathflow = INF;
 
                 int v = sink;
-                while(v != source) {
+                for (v = sink; v != source; v = parent[v]) { 
+                    int u = parent[v]; 
+                    pathflow = min(pathflow, res_lis[u][v]); 
+                } 
+
+                for (v = sink; v != source; v = parent[v]) {
                     int u = parent[v];
-
-                    int capacity = res_lis[u][v];
-                    pathflow = min(pathflow, capacity);
-
-                    v = u;
-                }
-
-                v = sink;
-                while(v != source) {
-                    int u = parent[v];
-                    
                     res_lis[u][v] -= pathflow;
                     res_lis[v][u] += pathflow;
-
-                    v = u;
                 }
 
                 maxflow += pathflow;
@@ -769,9 +734,10 @@ class analyser {
             }
         }
 
-        bool FordFulkersonUtil(vector<vector<int>> &res_lis, int &src, int &sink, vector<int> &parent) {
-            int num_nodes = res_lis.size();
-            bool visited[num_nodes] = {false};
+        bool FordFulkersonUtil(int num_nodes, int* res_lis2, int &src, int &sink, int parent[]) {
+            int (*res_lis)[num_nodes][num_nodes] = (int (*)[num_nodes][num_nodes]) res_lis2;
+            bool visited[num_nodes];
+            fill_n(visited, num_nodes, false);
 
             queue<int> q;
 
@@ -783,10 +749,8 @@ class analyser {
                 int u = q.front();
                 q.pop();
 
-                for (int i = 0; i < num_nodes; i++) {
-                    int v = i;
-                    int capacity = res_lis[u][v];
-              
+                for (int v = 0; v < num_nodes; v++) {
+                    int capacity = (*res_lis)[u][v];
                     if (!visited[v] && capacity > 0) {
                         q.push(v);
                         parent[v] = u;
@@ -795,10 +759,7 @@ class analyser {
                 }
             }
 
-            if (visited[sink]) 
-                return true;
-                
-            return false;
+            return (visited[sink] == true); 
         }  
 
         int FordFulkerson(graph b, int source, int sink) {
@@ -806,50 +767,30 @@ class analyser {
             vector<vector<point>>* lis = b.get_lis();
 
             int num_nodes = b.get_number_nodes();
-            // int r_lis[num_nodes][num_nodes] = {{0}};
-            // cerr << "break" << endl;
-            vector<vector<int>> res_lis;
-            for(int i; i < num_nodes; i++) {
-                vector<int> res_lis2;
-                for(int eger = 0; eger < num_nodes; eger++) {
-                    res_lis2.push_back(0);
-                }
-                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); j++) {
-                    res_lis2.push_back(j -> getWeight());
-                }
-                res_lis.push_back(res_lis2);
-            }
-            for (int i = 0; i < res_lis.size(); i++) {
-                for (int j = 0; j < res_lis.at(i).size(); j++) {
-                    cout << res_lis[i][j] << " ";
-                }
-                cout << endl;
-            }   
- 
-            vector<int> parent;
-            for(int i = 0; i < num_nodes; i++) 
-                parent.push_back(-1);
 
-            while(FordFulkersonUtil(res_lis, source, sink, parent)) {
-                int pathflow = 10000007;
+            int res_lis[num_nodes][num_nodes];
+
+            for(int i = 0; i < num_nodes; i++) {
+                for(auto j = lis -> at(i).begin(); j != lis -> at(i).end(); j++) {
+                    res_lis[i][j -> getNode().getNum()] = j -> getWeight();
+                }
+            } 
+ 
+            int parent[num_nodes];
+
+            while(FordFulkersonUtil(num_nodes, *res_lis, source, sink, parent)) {
+                int pathflow = INF;
 
                 int v = sink;
-                while(v != source) {
+                for (v = sink; v != source; v = parent[v]) { 
+                    int u = parent[v]; 
+                    pathflow = min(pathflow, res_lis[u][v]); 
+                } 
+
+                for (v = sink; v != source; v = parent[v]) {
                     int u = parent[v];
-
-                    int capacity = res_lis[u][v];
-                    pathflow = min(pathflow, capacity);
-
-                    v = u;
-                }
-
-                v = sink;
-                while(v != source) {
-                    int u = parent[v];
-                    
                     res_lis[u][v] -= pathflow;
                     res_lis[v][u] += pathflow;
-                    v = u;
                 }
 
                 maxflow += pathflow;

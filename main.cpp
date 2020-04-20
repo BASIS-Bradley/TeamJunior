@@ -203,27 +203,20 @@ void test_fordFulkerson() {
     g.addEdge(1, 2, 10); 
     g.addEdge(1, 3, 12); 
     g.addEdge(2, 1, 4); 
+    g.addEdge(2, 0, 0);
     g.addEdge(2, 4, 14); 
     g.addEdge(3, 2, 9); 
     g.addEdge(3, 5, 20); 
     g.addEdge(4, 3, 7);
     g.addEdge(4, 5, 4);
+    g.addEdge(5, 5, 0);
+    g.addEdge(5, 4, 0);
     analyser ana = analyser();
     int source = 0;
-    int sink = 5;
-    
-    // for(int i = 0; i < 6; i++) {
-    //     for(int j = 0; j < 6; j++) {
-    //         int source = i;
-    //         int sink = j;
-            
-    //         if(i == j) { continue; }
-            
-            cout << "The max flow from " << source << " to " << sink << " is: ";
-            cout << ana.FordFulkerson(g, source, sink) << endl;
-    //         }
-    //     cout << endl;
-    // }
+    int sink = 4;
+
+    cout << "The max flow from " << source << " to " << sink << " is: " << endl;
+    cout << ana.FordFulkerson(g, source, sink) << endl;
 }
 
 void runtime_testing() {
@@ -366,6 +359,6 @@ int main() {
     // test_topologicalSort();
     // test_shortestPathDAG();
     // test_cyclic();
-    // test_fordFulkerson();
-    test_prims();
+    test_fordFulkerson();
+    // test_prims();
 }
