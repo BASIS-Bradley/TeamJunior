@@ -7,6 +7,7 @@
 #include <limits.h>
 #include <fstream>
 #include <algorithm>
+#include "edge.hpp"
 #define INF INT_MAX
 #define INF2 0x3f3f3f3f
 
@@ -193,9 +194,11 @@ class analyser {
         } 
 
         vector<edge> kruskal(graph g, int k) {
-            vector<edge> edges = getEdges(g);
+            vector<edge> edges = g.getEdges();
             //thank you lambda functions i love you <3
-            auto compare = [](edge left, edge right) { return (left.weight) > (right.weight); };
+            auto compare = [](edge left, edge right) { 
+                return (left.getWeight()) > (right.getWeight()); 
+            };
             priority_queue<edge, vector<edge>, decltype(compare)> pq(compare);
 
             for(auto i = edges.begin(); i != edges.end(); i++)
@@ -207,24 +210,128 @@ class analyser {
             while(pq.size() > 0) {
                 edge current = pq.top();
                 pq.pop();
-                if (/*the thing in question hasn't been visited*/) {
-                    mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight());
-                    g.lis -> at(current.getSource()).at(current.getDest()).makeVisisted();
-                    g.lis -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
+                if (!g.get_lis() -> at(current.getSource()).at(current.getDest()).getVisited()) {
+                    mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight()));
+                    g.get_lis() -> at(current.getSource()).at(current.getDest()).makeVisited();
+                    g.get_lis() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
                     }
                 else {
                 clustum++;
-                if(group > k)
-                    group = 1;
-                    }
-                    }
-                    return mst;
-                    }
-
-
-
-
+                if(clustum > k)
+                    clustum = 1;
+                }
+            }
+            return mst;
         }
+
+        void krispal(graph g, int k) { // kruskal but things are in text file
+            vector<edge> edges = g.getEdges();
+            //thank you lambda functions i love you <3
+            auto compare = [](edge left, edge right) { 
+                return (left.getWeight()) > (right.getWeight()); 
+            };
+            priority_queue<edge, vector<edge>, decltype(compare)> pq(compare);
+
+            for(auto i = edges.begin(); i != edges.end(); i++)
+                pq.push(*i);
+
+            int clustum = 1;
+            vector<edge> mst;
+            // something = g.get_ls
+            vector<vector<point>>* lis = g.get_lis();
+            
+            while(pq.size() > 0) {
+                edge current = pq.top();
+                // cout << current.getSource() << "-" << current.getDest() << "\t" << current.getWeight() << endl;
+                pq.pop();
+                if (!g.get_lis() -> at(current.getSource()).at(current.getDest()).getVisited()) {
+                    mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight()));
+                    g.get_lis() -> at(current.getSource()).at(current.getDest()).makeVisited();
+                    g.get_lis() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
+                    }
+                else {
+                    clustum++;
+                    if(clustum > k)
+                        clustum = 1;
+                }
+            }
+            // cerr << "lmao3" << endl;
+            ofstream myfile;
+            myfile.open ("./results/kruskal.txt");
+            for (auto matic = mst.begin(); matic != mst.end(); matic++) {
+                myfile << matic -> getSource() << "-" << matic -> getDest() << "\t" << matic -> getWeight() << endl;
+            }
+            myfile.close();
+        }
+
+        vector<edge> kruskal(int k) {
+            vector<edge> edges = a.getEdges();
+            //thank you lambda functions i love you <3
+            auto compare = [](edge left, edge right) { 
+                return (left.getWeight()) > (right.getWeight()); 
+            };
+            priority_queue<edge, vector<edge>, decltype(compare)> pq(compare);
+
+            for(auto i = edges.begin(); i != edges.end(); i++)
+                pq.push(*i);
+
+            int clustum = 1;
+            vector<edge> mst;
+
+            while(pq.size() > 0) {
+                edge current = pq.top();
+                pq.pop();
+                if (!a.get_lis() -> at(current.getSource()).at(current.getDest()).getVisited()) {
+                    mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight()));
+                    a.get_lis() -> at(current.getSource()).at(current.getDest()).makeVisited();
+                    a.get_lis() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
+                    }
+                else {
+                clustum++;
+                if(clustum > k)
+                    clustum = 1;
+                }
+            }
+            return mst;
+        }
+
+        void krispal(int k) { // kruskal but things are in text file
+            vector<edge> edges = a.getEdges();
+            //thank you lambda functions i love you <3
+            auto compare = [](edge left, edge right) { 
+                return (left.getWeight()) > (right.getWeight()); 
+            };
+            priority_queue<edge, vector<edge>, decltype(compare)> pq(compare);
+
+            for(auto i = edges.begin(); i != edges.end(); i++)
+                pq.push(*i);
+
+            int clustum = 1;
+            vector<edge> mst;
+
+            while(pq.size() > 0) {
+                edge current = pq.top();
+                pq.pop();
+                if (!a.get_lis() -> at(current.getSource()).at(current.getDest()).getVisited()) {
+                    mst.push_back(edge(current.getSource(), current.getDest(), current.getWeight()));
+                    a.get_lis() -> at(current.getSource()).at(current.getDest()).makeVisited();
+                    a.get_lis() -> at(current.getSource()).at(current.getDest()).setClusterNum(clustum);
+                    }
+                else {
+                clustum++;
+                if(clustum > k)
+                    clustum = 1;
+                }
+            }
+            ofstream myfile;
+            myfile.open ("./results/kruskal.txt");
+            for (auto matic = mst.begin(); matic != mst.end(); matic++) {
+                myfile << matic -> getSource() << "-" << matic -> getDest() << "\t" << matic -> getWeight() << endl;
+            }
+            myfile.close();
+        }
+
+
 
 
         // void primMST2(graph g) {

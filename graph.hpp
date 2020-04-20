@@ -85,7 +85,7 @@ class graph {
             vector<edge> v;
             for(auto i = lis-> begin(); i != lis -> end(); i++) {
                 for(auto j = i -> begin(); j != i -> end(); j++) {
-                    v.push_back(src, j -> getNode().getNum(), j -> getWeight());
+                    v.push_back(edge(src, j -> getNode().getNum(), j -> getWeight()));
             }
                 src++;
         }

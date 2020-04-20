@@ -34,17 +34,17 @@ class point {
         int getWeight() {
             return weight;
         }
-        bool getVisitied() {
+        bool getVisited() {
             return visited;
         }
         void makeVisited() {
-            this.visited = true;
+            visited = true;
         }
         int getClusterNum() {
             return cluster_number;
         }
         void setClusterNum(int groupnum) {
-            this.cluster_number = groupnum;
+            cluster_number = groupnum;
         }
 
     private:

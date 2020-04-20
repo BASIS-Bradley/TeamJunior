@@ -1,7 +1,7 @@
 #include "analyser.hpp"
-// #include "mcl.hpp"
+#include "mcl.hpp"
 #include <chrono>
-// #include <eigen3/Eigen/Core>
+#include <eigen3/Eigen/Core>
 
 using namespace std;
 
@@ -233,10 +233,11 @@ void runtime_testing() {
     bool dijkstra = false;
     bool bfs = false; // bfs is broken
     bool cyclic = false; // is this broken
-    bool prims = true; // change this once implemented
+    bool prims = false; // change this once implemented
     bool mclb = false; //mcl
     bool ford_fulkerson = false;
     bool topological_sort = false;
+    bool kruskal = true;
 
     analyser ana = analyser();
 
@@ -308,40 +309,40 @@ void runtime_testing() {
         cout << "Prims (with file saving) took " << g_dur << " ms" << endl;
     }
 
-    // if(mclb) {
-    //     mcl a = mcl();
+    if(mclb) {
+        mcl a = mcl();
 
-    //     // Parameters for MCL
-    //     int trial_to_convergence = 1;
-    //     int expand_power = 2;
-    //     int inflation_power = 2;
-    //     bool add_self_loops = true;
+        // Parameters for MCL
+        int trial_to_convergence = 1;
+        int expand_power = 2;
+        int inflation_power = 2;
+        bool add_self_loops = true;
 
 
-    //     auto h_StartTime = std::chrono::system_clock::now();
-    //     Eigen::SparseMatrix<double> s = a.mcl_unweighted(g, expand_power, inflation_power, trial_to_convergence, add_self_loops);
-    //     auto h_EndTime = std::chrono::system_clock::now();
-    //     auto h_dur = std::chrono::duration_cast<std::chrono::milliseconds>(h_EndTime - h_StartTime).count();
-    //     cout << "MCL took " << h_dur << " ms" << endl;
+        auto h_StartTime = std::chrono::system_clock::now();
+        Eigen::SparseMatrix<double> s = a.mcl_unweighted(g, expand_power, inflation_power, trial_to_convergence, add_self_loops);
+        auto h_EndTime = std::chrono::system_clock::now();
+        auto h_dur = std::chrono::duration_cast<std::chrono::milliseconds>(h_EndTime - h_StartTime).count();
+        cout << "MCL took " << h_dur << " ms" << endl;
 
-    //     // still need to work on interpreting final matrix and getting clusters
-    //     // only works for small matrices, was going to do spectral clustering but that would take even more time
+        // still need to work on interpreting final matrix and getting clusters
+        // only works for small matrices, was going to do spectral clustering but that would take even more time
 
-    //     // cout << Eigen::MatrixXd(s) << endl;
-    // }
+        // cout << Eigen::MatrixXd(s) << endl;
+    }
 
-    // if(ford_fulkerson) {
-    //     // Parameters for Ford Fulkerson
-    //     int source = 0;
-    //     int sink = 10;
+    if(ford_fulkerson) {
+        // Parameters for Ford Fulkerson
+        int source = 0;
+        int sink = 10;
 
-    //     auto i_StartTime = std::chrono::system_clock::now();
-    //     int max_flow = ana.FordFulkerson(g, source, sink);
-    //     auto i_EndTime = std::chrono::system_clock::now();
-    //     auto i_dur = std::chrono::duration_cast<std::chrono::milliseconds>(i_EndTime - i_StartTime).count();
-    //     cout << "Ford Fulkerson took " << i_dur << " ms" << endl;
-    //     cout << "-----Max Flow was " << max_flow << endl;
-    // }
+        auto i_StartTime = std::chrono::system_clock::now();
+        int max_flow = ana.FordFulkerson(g, source, sink);
+        auto i_EndTime = std::chrono::system_clock::now();
+        auto i_dur = std::chrono::duration_cast<std::chrono::milliseconds>(i_EndTime - i_StartTime).count();
+        cout << "Ford Fulkerson took " << i_dur << " ms" << endl;
+        cout << "-----Max Flow was " << max_flow << endl;
+    }
 
     if(topological_sort) {
         auto j_StartTime = std::chrono::system_clock::now();
@@ -350,15 +351,26 @@ void runtime_testing() {
         auto j_dur = std::chrono::duration_cast<std::chrono::milliseconds>(j_EndTime - j_StartTime).count();
         cout << "Topological Sorting took " << j_dur << " ms" << endl;
     }
+
+    if(kruskal) {
+        // Parameters for Kruskal
+        int clusters = 3;
+
+        auto k_StartTime = std::chrono::system_clock::now();
+        ana.krispal(g, clusters);
+        auto k_EndTime = std::chrono::system_clock::now();
+        auto k_dur = std::chrono::duration_cast<std::chrono::milliseconds>(k_EndTime - k_StartTime).count();
+        cout << "Kruskal took " << k_dur << " ms" << endl;
+    }
 }
 
 int main() {
-    // runtime_testing();
+    runtime_testing();
     // test_cyclic();
     // test_bfs();
     // test_topologicalSort();
     // test_shortestPathDAG();
     // test_cyclic();
-    test_fordFulkerson();
+    // test_fordFulkerson();
     // test_prims();
 }
