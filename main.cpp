@@ -72,34 +72,34 @@ void testing() {
     cout << a.findInDegree(f, 0) << a.findOutDegree(f, 3) << a.findOutDegree(f, 1) << a.findOutDegree(f, 2) << endl;
 }
 
-// void test_clustering() {
-//     graph g = graph(false, false, 12);
-//     g.addEdge(0,5);
-//     g.addEdge(0,6);
-//     g.addEdge(0,1);
-//     g.addEdge(0,9);
-//     g.addEdge(1,4);
-//     g.addEdge(1,2);
-//     g.addEdge(2,4);
-//     g.addEdge(2,3);
-//     g.addEdge(3,7);
-//     g.addEdge(3,8);
-//     g.addEdge(3,10);
-//     g.addEdge(4,6);
-//     g.addEdge(4,7);
-//     g.addEdge(5,9);
-//     g.addEdge(6,9);
-//     g.addEdge(7,8);
-//     g.addEdge(7,10);
-//     g.addEdge(8,10);
-//     g.addEdge(8,11);
-//     g.addEdge(10,11);
+void test_clustering() {
+    graph g = graph(false, false, 12);
+    g.addEdge(0,5);
+    g.addEdge(0,6);
+    g.addEdge(0,1);
+    g.addEdge(0,9);
+    g.addEdge(1,4);
+    g.addEdge(1,2);
+    g.addEdge(2,4);
+    g.addEdge(2,3);
+    g.addEdge(3,7);
+    g.addEdge(3,8);
+    g.addEdge(3,10);
+    g.addEdge(4,6);
+    g.addEdge(4,7);
+    g.addEdge(5,9);
+    g.addEdge(6,9);
+    g.addEdge(7,8);
+    g.addEdge(7,10);
+    g.addEdge(8,10);
+    g.addEdge(8,11);
+    g.addEdge(10,11);
 
-//     // g.print_graph();
-//     mcl a = mcl();
-//     Eigen::SparseMatrix<double> s = a.mcl_unweighted(g, 2, 2, 15, true);
-//     cout << Eigen::MatrixXd(s) << endl;
-// }
+    // g.print_graph();
+    mcl a = mcl();
+    Eigen::SparseMatrix<double> s = a.mcl_unweighted(g, 2, 2, 15, true);
+    cout << Eigen::MatrixXd(s) << endl;
+}
 
 void test_bfs() {
     graph g = graph(false, false, 4);
@@ -194,6 +194,18 @@ void test_topologicalSort() {
     g.addEdge(3, 1);
     analyser ana = analyser();
     ana.topologicalSort(g);
+}
+
+void test_allTopologicalSort() {
+    graph g = graph(true, false, 6);
+    g.addEdge(5, 2);
+    g.addEdge(5, 0); 
+    g.addEdge(4, 0); 
+    g.addEdge(4, 1); 
+    g.addEdge(2, 3); 
+    g.addEdge(3, 1);
+    analyser ana = analyser();
+    ana.allTopologicalSort(g);
 }
 
 void test_fordFulkerson() {
@@ -369,6 +381,7 @@ int main() {
     // test_cyclic();
     // test_bfs();
     // test_topologicalSort();
+    // test_allTopologicalSort();
     // test_shortestPathDAG();
     // test_cyclic();
     // test_fordFulkerson();

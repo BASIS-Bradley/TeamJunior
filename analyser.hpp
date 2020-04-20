@@ -480,6 +480,54 @@ class analyser {
             }
         }
 
+        void topologicalSortUtil(vector<int>& res, bool visited[], vector<int> indegree) {
+            bool flag = false; 
+
+            for (int i = 0; i < num_nodes; i++) { 
+                if (indegree[i] == 0 && !visited[i]) { 
+                    for (auto j = a.get_lis() -> at(i).begin(); j != a.get_lis() -> at(i).end(); j++) 
+                        indegree[j -> getNode().getNum()]--; 
+
+                    res.push_back(i); 
+                    visited[i] = true; 
+                    topologicalSortUtil(res, visited, indegree); 
+
+                    visited[i] = false; 
+                    res.erase(res.end() - 1); 
+                    for (auto j = a.get_lis() -> at(i).begin(); j != a.get_lis() -> at(i).end(); j++) 
+                        indegree[j -> getNode().getNum()]++; 
+
+                    flag = true; 
+                } 
+            } 
+
+            if (!flag) { 
+                for (int i = 0; i < res.size(); i++) 
+                    cout << res[i] << " "; 
+                cout << endl; 
+            }
+        }
+
+        void allTopologicalSort() {
+            if (a.get_directed() && !isCyclic(a)) {
+                vector<int> indegree;
+                for (int i = 0; i < num_nodes; i++) {
+                    indegree.push_back(0);
+                }
+                bool *visited = new bool[num_nodes]; 
+                for (int i = 0; i < num_nodes; i++) {
+                    indegree[i] = findInDegree(a, i);
+                }
+                for (int i = 0; i < num_nodes; i++) 
+                    visited[i] = false; 
+            
+                vector<int> res; 
+                topologicalSortUtil(a, res, visited, indegree);
+            } else {
+                cout << "Graph is not a directed acyclic graph" << endl;
+            }
+        }
+
         void shortestPath(int s) { 
             if (a.get_directed() && !isCyclic()) {
                 stack<int> Stack; 
@@ -826,6 +874,56 @@ class analyser {
                     Stack.pop(); 
                 } 
                 myfile.close();
+            } else {
+                cout << "Graph is not a directed acyclic graph" << endl;
+            }
+        }
+
+        void topologicalSortUtil(graph b, vector<int>& res, bool visited[], vector<int> indegree) {
+            int num_nodes = b.get_number_nodes();
+            bool flag = false; 
+
+            for (int i = 0; i < num_nodes; i++) { 
+                if (indegree[i] == 0 && !visited[i]) { 
+                    for (auto j = b.get_lis() -> at(i).begin(); j != b.get_lis() -> at(i).end(); j++) 
+                        indegree[j -> getNode().getNum()]--; 
+
+                    res.push_back(i); 
+                    visited[i] = true; 
+                    topologicalSortUtil(b, res, visited, indegree); 
+
+                    visited[i] = false; 
+                    res.erase(res.end() - 1); 
+                    for (auto j = b.get_lis() -> at(i).begin(); j != b.get_lis() -> at(i).end(); j++) 
+                        indegree[j -> getNode().getNum()]++; 
+
+                    flag = true; 
+                } 
+            } 
+
+            if (!flag) { 
+                for (int i = 0; i < res.size(); i++) 
+                    cout << res[i] << " "; 
+                cout << endl; 
+            }
+        }
+
+        void allTopologicalSort(graph b) {
+            if (b.get_directed() && !isCyclic(b)) {
+                int num_nodes = b.get_number_nodes();
+                vector<int> indegree;
+                for (int i = 0; i < num_nodes; i++) {
+                    indegree.push_back(0);
+                }
+                bool *visited = new bool[num_nodes]; 
+                for (int i = 0; i < num_nodes; i++) {
+                    indegree[i] = findInDegree(b, i);
+                }
+                for (int i = 0; i < num_nodes; i++) 
+                    visited[i] = false; 
+            
+                vector<int> res; 
+                topologicalSortUtil(b, res, visited, indegree);
             } else {
                 cout << "Graph is not a directed acyclic graph" << endl;
             }
