@@ -1,7 +1,7 @@
 #include "analyser.hpp"
-// #include "mcl.hpp"
+#include "mcl.hpp"
 #include <chrono>
-// #include <eigen3/Eigen/Core>
+#include <eigen3/Eigen/Core>
 
 using namespace std;
 
@@ -72,34 +72,34 @@ void testing() {
     cout << a.findInDegree(f, 0) << a.findOutDegree(f, 3) << a.findOutDegree(f, 1) << a.findOutDegree(f, 2) << endl;
 }
 
-// void test_clustering() {
-//     graph g = graph(false, false, 12);
-//     g.addEdge(0,5);
-//     g.addEdge(0,6);
-//     g.addEdge(0,1);
-//     g.addEdge(0,9);
-//     g.addEdge(1,4);
-//     g.addEdge(1,2);
-//     g.addEdge(2,4);
-//     g.addEdge(2,3);
-//     g.addEdge(3,7);
-//     g.addEdge(3,8);
-//     g.addEdge(3,10);
-//     g.addEdge(4,6);
-//     g.addEdge(4,7);
-//     g.addEdge(5,9);
-//     g.addEdge(6,9);
-//     g.addEdge(7,8);
-//     g.addEdge(7,10);
-//     g.addEdge(8,10);
-//     g.addEdge(8,11);
-//     g.addEdge(10,11);
+void test_clustering() {
+    graph g = graph(false, false, 12);
+    g.addEdge(0,5);
+    g.addEdge(0,6);
+    g.addEdge(0,1);
+    g.addEdge(0,9);
+    g.addEdge(1,4);
+    g.addEdge(1,2);
+    g.addEdge(2,4);
+    g.addEdge(2,3);
+    g.addEdge(3,7);
+    g.addEdge(3,8);
+    g.addEdge(3,10);
+    g.addEdge(4,6);
+    g.addEdge(4,7);
+    g.addEdge(5,9);
+    g.addEdge(6,9);
+    g.addEdge(7,8);
+    g.addEdge(7,10);
+    g.addEdge(8,10);
+    g.addEdge(8,11);
+    g.addEdge(10,11);
 
-//     // g.print_graph();
-//     mcl a = mcl();
-//     Eigen::SparseMatrix<double> s = a.mcl_unweighted(g, 2, 2, 15, true);
-//     cout << Eigen::MatrixXd(s) << endl;
-// }
+    // g.print_graph();
+    mcl a = mcl();
+    Eigen::SparseMatrix<double> s = a.mcl_unweighted(g, 2, 2, 15, true);
+    cout << Eigen::MatrixXd(s) << endl;
+}
 
 void test_bfs() {
     graph g = graph(false, false, 4);
@@ -194,6 +194,18 @@ void test_topologicalSort() {
     g.addEdge(3, 1);
     analyser ana = analyser();
     ana.topologicalSort(g);
+}
+
+void test_allTopologicalSort() {
+    graph g = graph(true, false, 6);
+    g.addEdge(5, 2);
+    g.addEdge(5, 0); 
+    g.addEdge(4, 0); 
+    g.addEdge(4, 1); 
+    g.addEdge(2, 3); 
+    g.addEdge(3, 1);
+    analyser ana = analyser();
+    ana.allTopologicalSort(g);
 }
 
 void test_fordFulkerson() {
@@ -308,40 +320,40 @@ void runtime_testing() {
         cout << "Prims (with file saving) took " << g_dur << " ms" << endl;
     }
 
-    // if(mclb) {
-    //     mcl a = mcl();
+    if(mclb) {
+        mcl a = mcl();
 
-    //     // Parameters for MCL
-    //     int trial_to_convergence = 1;
-    //     int expand_power = 2;
-    //     int inflation_power = 2;
-    //     bool add_self_loops = true;
+        // Parameters for MCL
+        int trial_to_convergence = 1;
+        int expand_power = 2;
+        int inflation_power = 2;
+        bool add_self_loops = true;
 
 
-    //     auto h_StartTime = std::chrono::system_clock::now();
-    //     Eigen::SparseMatrix<double> s = a.mcl_unweighted(g, expand_power, inflation_power, trial_to_convergence, add_self_loops);
-    //     auto h_EndTime = std::chrono::system_clock::now();
-    //     auto h_dur = std::chrono::duration_cast<std::chrono::milliseconds>(h_EndTime - h_StartTime).count();
-    //     cout << "MCL took " << h_dur << " ms" << endl;
+        auto h_StartTime = std::chrono::system_clock::now();
+        Eigen::SparseMatrix<double> s = a.mcl_unweighted(g, expand_power, inflation_power, trial_to_convergence, add_self_loops);
+        auto h_EndTime = std::chrono::system_clock::now();
+        auto h_dur = std::chrono::duration_cast<std::chrono::milliseconds>(h_EndTime - h_StartTime).count();
+        cout << "MCL took " << h_dur << " ms" << endl;
 
-    //     // still need to work on interpreting final matrix and getting clusters
-    //     // only works for small matrices, was going to do spectral clustering but that would take even more time
+        // still need to work on interpreting final matrix and getting clusters
+        // only works for small matrices, was going to do spectral clustering but that would take even more time
 
-    //     // cout << Eigen::MatrixXd(s) << endl;
-    // }
+        // cout << Eigen::MatrixXd(s) << endl;
+    }
 
-    // if(ford_fulkerson) {
-    //     // Parameters for Ford Fulkerson
-    //     int source = 0;
-    //     int sink = 10;
+    if(ford_fulkerson) {
+        // Parameters for Ford Fulkerson
+        int source = 0;
+        int sink = 10;
 
-    //     auto i_StartTime = std::chrono::system_clock::now();
-    //     int max_flow = ana.FordFulkerson(g, source, sink);
-    //     auto i_EndTime = std::chrono::system_clock::now();
-    //     auto i_dur = std::chrono::duration_cast<std::chrono::milliseconds>(i_EndTime - i_StartTime).count();
-    //     cout << "Ford Fulkerson took " << i_dur << " ms" << endl;
-    //     cout << "-----Max Flow was " << max_flow << endl;
-    // }
+        auto i_StartTime = std::chrono::system_clock::now();
+        int max_flow = ana.FordFulkerson(g, source, sink);
+        auto i_EndTime = std::chrono::system_clock::now();
+        auto i_dur = std::chrono::duration_cast<std::chrono::milliseconds>(i_EndTime - i_StartTime).count();
+        cout << "Ford Fulkerson took " << i_dur << " ms" << endl;
+        cout << "-----Max Flow was " << max_flow << endl;
+    }
 
     if(topological_sort) {
         auto j_StartTime = std::chrono::system_clock::now();
@@ -357,8 +369,9 @@ int main() {
     // test_cyclic();
     // test_bfs();
     // test_topologicalSort();
+    // test_allTopologicalSort();
     // test_shortestPathDAG();
     // test_cyclic();
-    test_fordFulkerson();
+    // test_fordFulkerson();
     // test_prims();
 }
